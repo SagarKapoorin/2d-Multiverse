@@ -1,0 +1,19 @@
+A. Web Socket:
+   i. when user enter space
+   ii. movement
+   iii. movement rejected.
+   iv. leave
+B. Http server:
+  i. signup/login
+  ii. create space admin only
+  iii. create object admin only
+  iv. placing object in space
+  v. removing object in space
+  vi.  deleting object admin only
+  v. update space admin only
+  vi. update object admin only
+  vii. authentication check
+  viii. avatar selection
+  ix. avatar update.
+  x. get all spaces.
+  xi. get all avatar , objects
