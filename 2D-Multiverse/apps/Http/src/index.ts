@@ -6,8 +6,8 @@ import dotenv from "dotenv";
 import helmet  from "helmet";
 import morgan from "morgan";
 import { router } from "./routes/v1/Index";
+dotenv.config({ path: '../../.env' }); 
 
-dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(helmet());
@@ -16,9 +16,10 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-
-const PORT = process.env.PORT || 6001;
-const MONGO_URL=process.env.MONGO_URL||"";
+const PORT:string = process.env.PORT || '3000';
+// console.log(PORT);
+const MONGO_URL:string=process.env.MONGO_URL||"mongodb://localhost:27017/mydatabase"/*for docker based port*/; 
+// console.log(MONGO_URL);
 mongoose
   .connect(MONGO_URL, {
   })
@@ -26,7 +27,4 @@ mongoose
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
   })
   .catch((error) => console.log(`${error} did not connect`));
-
-
-app.use("/sign",router)
-
+app.use("/api/v1",router);

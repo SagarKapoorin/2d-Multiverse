@@ -1,0 +1,25 @@
+{
+  "name": "@repo/db",
+  "version": "1.0.0",
+  "main": "index.js",
+  "exports":{
+    "./space": "./dist/schema/space.js",
+    "./user": "./dist/schema/user.js",
+    "./map": "./dist/schema/map.js",
+    "./mapElements": "./dist/schema/mapElements.js",
+    "./spaceElements": "./dist/schema/spaceElements.js",
+    "./avatar":"./dist/schema/avatar.js",
+    "./elements":"./dist/schema/elements.js"
+  },
+  "scripts": {
+    "build":"tsc -b",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "mongoose": "^8.8.1"
+  }
+}

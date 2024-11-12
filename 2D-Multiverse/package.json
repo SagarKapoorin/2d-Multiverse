@@ -9,8 +9,7 @@
   },
   "devDependencies": {
     "prettier": "^3.2.5",
-    "turbo": "^2.2.3",
-    "typescript": "^5.5.4"
+    "turbo": "^2.2.3"
   },
   "engines": {
     "node": ">=18"
@@ -19,13 +18,5 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "dependencies": {
-    "body-parser": "^1.20.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.1",
-    "mongoose": "^8.8.1",
-    "morgan": "^1.10.0"
-  }
+  ]
 }

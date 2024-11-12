@@ -1,0 +1,1 @@
+{"root":["./src/add.ts","./src/index.ts","./src/schema/avatar.ts","./src/schema/elements.ts","./src/schema/map.ts","./src/schema/mapelements.ts","./src/schema/space.ts","./src/schema/spaceelements.ts","./src/schema/user.ts"],"version":"5.6.3"}
