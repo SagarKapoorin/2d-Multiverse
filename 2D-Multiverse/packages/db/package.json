@@ -3,13 +3,34 @@
   "version": "1.0.0",
   "main": "index.js",
   "exports":{
-    "./space": "./dist/schema/space.js",
-    "./user": "./dist/schema/user.js",
-    "./map": "./dist/schema/map.js",
-    "./mapElements": "./dist/schema/mapElements.js",
-    "./spaceElements": "./dist/schema/spaceElements.js",
-    "./avatar":"./dist/schema/avatar.js",
-    "./elements":"./dist/schema/elements.js"
+    "./space": {
+      "types": "./src/schema/space.ts",
+      "default": "./dist/schema/space.js"
+    },
+    "./user": {
+      "types": "./src/schema/user.ts",
+      "default": "./dist/schema/user.js"
+    },
+    "./map": {
+      "types": "./src/schema/map.ts",
+      "default": "./dist/schema/map.js"
+    },
+    "./mapElements": {
+      "types": "./src/schema/mapElements.ts",
+      "default": "./dist/schema/mapElements.js"
+    },
+    "./spaceElements": {
+      "types": "./src/schema/spaceElements.ts",
+      "default": "./dist/schema/spaceElements.js"
+    },
+    "./avatar": {
+      "types": "./src/schema/avatar.ts",
+      "default": "./dist/schema/avatar.js"
+    },
+    "./elements": {
+      "types": "./src/schema/elements.ts",
+      "default": "./dist/schema/elements.js"
+    }
   },
   "scripts": {
     "build":"tsc -b",

@@ -4,3 +4,4 @@
 export in package.json in js form
 few changes in module,moduledetction and modulersoluiton of app
 change in package.json dependencies
+add types and default in exports

@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import helmet  from "helmet";
 import morgan from "morgan";
 import { router } from "./routes/v1/Index";
+import  space  from "@repo/db/space";
 dotenv.config({ path: '../../.env' }); 
 
 const app = express();
