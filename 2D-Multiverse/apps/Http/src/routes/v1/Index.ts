@@ -75,5 +75,5 @@ router.get("/elements",(req,res)=>{
 router.use("/user",userRouter);
 router.use("/space",spaceRouter);
 router.use("/admin",adminRouter);
-// router.use("/user",userRouter);
+router.use("/user",userRouter);
 

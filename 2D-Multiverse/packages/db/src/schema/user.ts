@@ -12,7 +12,7 @@ const UserSchema: Schema<IUser> = new Schema({
   id: { type: String, default: () => new mongoose.Types.ObjectId() },
   username: { type: String, unique: true, required: true },
   password: { type: String, unique: true, required: true },
-  avatar: { type: Schema.Types.ObjectId, ref: 'Avatar' },
+  avatar: { type: mongoose.Schema.Types.ObjectId, ref: 'Avatar' },
   role: { type: String, enum: ['Admin', 'User'], required: true },
   spaces: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Space' }]
 });

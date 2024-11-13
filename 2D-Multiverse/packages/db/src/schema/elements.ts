@@ -14,8 +14,8 @@ const ElementSchema: Schema<IElement> = new Schema({
   height: { type: Number, required: true },
   imageUrl: { type: String, required: true },
   static: { type: Boolean, required: true },
-  spaces: [{ type: Schema.Types.ObjectId, ref: 'SpaceElements' }],
-  mapElements: [{ type: Schema.Types.ObjectId, ref: 'MapElements' }]
+  spaces: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SpaceElements' }],
+  mapElements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MapElements' }]
 });
 
 const Element = mongoose.model<IElement>('Element', ElementSchema);

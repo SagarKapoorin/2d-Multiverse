@@ -59,7 +59,7 @@ export const CreateMapSchema = z.object({
     }))
 })
 
-
+//defining request (as type error in middlewares)
 declare global {
     namespace Express {
       export interface Request {

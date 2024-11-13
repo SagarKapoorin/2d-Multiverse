@@ -13,7 +13,7 @@ const SpaceSchema:Schema<ISpace> = new Schema({
     height: { type: Number, default: null },
     thumbnail: { type: String, default: null },
     creator: { type: mongoose.Schema.Types.ObjectId, ref:'User', required:true},
-    elements: [{ type: Schema.Types.ObjectId, ref: 'SpaceElements' }],
+    elements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SpaceElements' }],
   });
   
   const Space = mongoose.model<ISpace>('Space', SpaceSchema);

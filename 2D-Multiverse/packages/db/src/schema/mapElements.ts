@@ -8,8 +8,8 @@ interface IMapElements extends Document {
 }
 
 const MapElementsSchema: Schema<IMapElements> = new Schema({
-  map: { type: Schema.Types.ObjectId, ref: 'Map', required: true },
-  element: { type: Schema.Types.ObjectId, ref: 'Element', required: true },
+  map: { type: mongoose.Schema.Types.ObjectId, ref: 'Map', required: true },
+  element: { type: mongoose.Schema.Types.ObjectId, ref: 'Element', required: true },
   x: { type: Number, default: null },
   y: { type: Number, default: null }
 });

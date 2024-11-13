@@ -13,7 +13,7 @@ const MapSchema: Schema<IMap> = new Schema({
   height: { type: Number, required: true },
   name: { type: String, required: true },
   thumbnail: { type: String },
-  mapElements: [{ type: Schema.Types.ObjectId, ref: 'MapElements' }]
+  mapElements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MapElements' }]
 });
 
 const Map = mongoose.model<IMap>('Map', MapSchema);
