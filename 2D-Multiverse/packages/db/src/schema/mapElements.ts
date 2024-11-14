@@ -1,17 +1,17 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema ,Types} from 'mongoose';
 
-interface IMapElements extends Document {
-  map: mongoose.Types.ObjectId;
-  element: mongoose.Types.ObjectId;
-  x?: number | null;
-  y?: number | null;
+export interface IMapElements extends Document {
+  map: Types.ObjectId;
+  element: Types.ObjectId;
+  x: number;
+  y: number;
 }
 
 const MapElementsSchema: Schema<IMapElements> = new Schema({
-  map: { type: mongoose.Schema.Types.ObjectId, ref: 'Map', required: true },
-  element: { type: mongoose.Schema.Types.ObjectId, ref: 'Element', required: true },
-  x: { type: Number, default: null },
-  y: { type: Number, default: null }
+  map: { type: Schema.Types.ObjectId, ref: 'Map' },
+  element: { type: Schema.Types.ObjectId, ref: 'Element', required: true },
+  x: { type: Number, required:true },
+  y: { type: Number, required:true }
 });
 
 const MapElements = mongoose.model<IMapElements>('MapElements', MapElementsSchema);

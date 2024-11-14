@@ -1,12 +1,12 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema , Types} from 'mongoose';
 
-interface IElement extends Document {
+export interface IElement extends Document {
   width: number;
   height: number;
   imageUrl: string;
   static: boolean;
-  spaces: mongoose.Types.ObjectId[];
-  mapElements: mongoose.Types.ObjectId[];
+  spaces: Types.ObjectId[];
+  mapElements: Types.ObjectId[];
 }
 
 const ElementSchema: Schema<IElement> = new Schema({
@@ -14,8 +14,8 @@ const ElementSchema: Schema<IElement> = new Schema({
   height: { type: Number, required: true },
   imageUrl: { type: String, required: true },
   static: { type: Boolean, required: true },
-  spaces: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SpaceElements' }],
-  mapElements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MapElements' }]
+  spaces: [{ type: Schema.Types.ObjectId, ref: 'SpaceElements' }],
+  mapElements: [{ type: Schema.Types.ObjectId, ref: 'MapElements' }]
 });
 
 const Element = mongoose.model<IElement>('Element', ElementSchema);

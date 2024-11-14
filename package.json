@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "@types/bson": "^4.0.5"
+  },
+  "dependencies": {
+    "@types/mongodb": "^4.0.6"
+  }
+}

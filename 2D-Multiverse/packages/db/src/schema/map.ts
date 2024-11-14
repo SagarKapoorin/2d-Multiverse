@@ -1,11 +1,11 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema ,Types } from 'mongoose';
 
 interface IMap extends Document {
   width: number;
   height: number;
   name: string;
   thumbnail?: string;
-  mapElements: mongoose.Types.ObjectId[];
+  mapElements: Types.ObjectId[];
 }
 
 const MapSchema: Schema<IMap> = new Schema({
@@ -13,7 +13,7 @@ const MapSchema: Schema<IMap> = new Schema({
   height: { type: Number, required: true },
   name: { type: String, required: true },
   thumbnail: { type: String },
-  mapElements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MapElements' }]
+  mapElements: [{ type: Schema.Types.ObjectId, ref: 'MapElements' }]
 });
 
 const Map = mongoose.model<IMap>('Map', MapSchema);
