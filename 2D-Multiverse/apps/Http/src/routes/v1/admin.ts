@@ -24,7 +24,7 @@ adminRouter.post("/element",async(req,res)=>{
     console.log(element);
     await element.save();
     res.json({
-        id: element.id
+        id: element._id
     })
 })
 adminRouter.put("/element/:elementId",async(req,res)=>{

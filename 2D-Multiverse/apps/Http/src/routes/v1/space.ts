@@ -10,7 +10,9 @@ import { ISpace } from "@repo/db/space";
 import mongoose from "mongoose";
 export const spaceRouter = Router();
 import MapElements, { IMapElements } from "@repo/db/mapElements";
-spaceRouter.post("/",userMiddleware,  async (req, res) => {
+spaceRouter.use(userMiddleware);
+
+spaceRouter.post("/",  async (req, res) => {
     const parsedData = CreateSpaceSchema.safeParse(req.body)
     if (!parsedData.success) {
         console.log(JSON.stringify(parsedData))
@@ -59,9 +61,20 @@ spaceRouter.post("/",userMiddleware,  async (req, res) => {
     }));
     
     if (spaceElementsData && spaceElementsData.length > 0) {
-        await SpaceElements.insertMany(spaceElementsData);
+        const insertedSpaceElements = await SpaceElements.insertMany(spaceElementsData);
+        const spaceElementIds = insertedSpaceElements.map((e) => e._id);
+        console.log(spaceElementIds); 
+        const newSpace = await Space.findByIdAndUpdate(
+          { _id: space._id },
+          {
+            $push: { elements: { $each: spaceElementIds } } 
+          },
+          { new: true }
+        );
+      
+        console.log(newSpace); 
     }
-    console.log(spaceElementsData);
+  
     res.json({
         message: "Space and elements created successfully",
         spaceId: space._id
@@ -97,7 +110,7 @@ spaceRouter.delete("/element",  async (req, res) => {
     
 })
 
-spaceRouter.get("/all",userMiddleware, async (req, res) => {
+spaceRouter.get("/all", async (req, res) => {
     const spaces = await Space.find({
             creator: req.userId!
     });
@@ -120,34 +133,47 @@ spaceRouter.post("/element", async (req, res) => {
         res.status(400).json({message: "Validation failed"})
         return
     }
-   
+    
+   console.log("1");
     const space = await Space.findOne( {
-            id: req.body.spaceId,
-            creatorId: req.userId!
+            _id: req.body.spaceId,
+            creator: req.userId!
         }
     ).select('width height')
-
+console.log("two")
     if(req.body.x < 0 || req.body.y < 0 || req.body.x > space?.width! || req.body.y > space?.height!) {
+        console.log("three");
         res.status(400).json({message: "Point is outside of the boundary"})
         return
     }
 
     if (!space) {
+        console.log("4");
         res.status(400).json({message: "Space not found"})
         return
     }
+    // console.log(space);
     const newSpaceElements=new SpaceElements({
             space: req.body.spaceId,
             element: req.body.elementId,
             x: req.body.x,
             y: req.body.y
     })
+    const updatedSpace = await Space.findByIdAndUpdate(
+        { _id: req.body.spaceId },
+        {
+          $push: { elements: newSpaceElements._id }
+        },
+        { new: true } 
+      );
+      console.log("5")
+      console.log(updatedSpace)
     await newSpaceElements.save();
 
     res.json({message: "Element added"})
 })
 
-spaceRouter.delete("/:spaceId",userMiddleware,async (req, res) => {
+spaceRouter.delete("/:spaceId",async (req, res) => {
     if( !isValidObjectId(req.params.spaceId)){
         res.status(400).json({message: "Space not found"})
         return
