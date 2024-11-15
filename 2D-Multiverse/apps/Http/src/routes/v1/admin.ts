@@ -51,16 +51,26 @@ adminRouter.post("/avatar",async(req,res)=>{
             name: parsedData.data.name,
             imageUrl: parsedData.data.imageUrl
     })
-    await avatar.save();
-    res.json({avatarId: avatar.id})
+    try {
+        await avatar.save();
+        console.log(avatar);
+        res.json({ avatarId: avatar._id });
+    } catch (error) {
+        console.error("Error saving avatar:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+    
 })
 adminRouter.post("/map",async(req,res)=>{
-    console.log("yes");
+
     const parsedData = CreateMapSchema.safeParse(req.body);
     if (!parsedData.success) {
+        console.log("no")
         res.status(400).json({ message: "Validation failed" });
         return;
     }
+    console.log("yes");
+
     const mapElements = await Promise.all(
         parsedData.data.defaultElements.map(async (e: { element: string; x: number; y: number }) => {
             const mapElement = new MapElements({
@@ -79,7 +89,8 @@ adminRouter.post("/map",async(req,res)=>{
         thumbnail: parsedData.data.thumbnail,
         mapElements: mapElements,
     });
-    
+    console.log(map)
+    console.log(mapElements);
     await map.save();
     
     res.json({

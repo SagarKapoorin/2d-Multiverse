@@ -6,7 +6,8 @@ import { SigninSchema, SignupSchema } from "../../validation";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "@repo/db/user";
-
+import Avatar from "@repo/db/avatar";
+import Element from "@repo/db/elements";
 export const router=Router();
 
 router.post("/signup",async(req,res)=>{
@@ -66,11 +67,24 @@ router.post("/signin", async (req, res) => {
         res.status(400).json({message: "Internal server error"})
     }
 })
-router.get("/avatars",(req,res)=>{
-
+router.get("/avatars",async(req,res)=>{
+    const avatars = await Avatar.find({});
+    res.json({avatars: avatars.map(x => ({
+        id: x.id,
+        imageUrl: x.imageUrl,
+        name: x.name
+    }))})
 })
-router.get("/elements",(req,res)=>{
-   
+router.get("/elements", async(req,res)=>{
+    const elements = await Element.find({});
+
+    res.json({elements: elements.map(e => ({
+        id: e.id,
+        imageUrl: e.imageUrl,
+        width: e.width,
+        height: e.height,
+        static: e.static
+    }))})
 })
 router.use("/user",userRouter);
 router.use("/space",spaceRouter);

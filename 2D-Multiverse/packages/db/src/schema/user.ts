@@ -1,9 +1,9 @@
 import mongoose, { Document, Schema ,Types} from 'mongoose';
 
-interface IUser extends Document {
+export interface IUser extends Document {
   username: string;
   password: string;
-  avatar: Types.ObjectId | null;
+  avatar: Types.ObjectId ;
   role: 'Admin' | 'User';
   spaces: Types.ObjectId[];
 }

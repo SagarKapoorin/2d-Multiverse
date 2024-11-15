@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema ,Types} from 'mongoose';
-interface IAvatar extends Document {
-  imageUrl: string | null;
-  name: string | null;
+export interface IAvatar extends Document {
+  imageUrl: string ;
+  name: string ;
   users: Types.ObjectId[];
 }
 const AvatarSchema: Schema<IAvatar> = new Schema({

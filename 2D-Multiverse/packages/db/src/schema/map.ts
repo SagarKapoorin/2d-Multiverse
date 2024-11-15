@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema ,Types } from 'mongoose';
 
-interface IMap extends Document {
+export interface IMap extends Document {
   width: number;
   height: number;
   name: string;
