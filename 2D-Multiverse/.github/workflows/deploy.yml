@@ -1,0 +1,54 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: ["23.2.0"]
+
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+
+    env:
+      NODE_ENV: ci
+      PORT: 3000
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies
+        run: |
+          cd 2D-Multiverse/apps/Http
+          npm install
+          npm run build
+          cd ../../packages
+          npm install
+          npm run build
+      - name: Start server
+        run: |
+          cd 2D-Multiverse/apps/Http
+          nohup npm run start &
+          sleep 3
+      - name: Run tests
+        run: 
+            cd test
+            npm run test

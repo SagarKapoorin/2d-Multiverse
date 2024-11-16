@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -b",
-    "start": "pm2 start dist/index.js -i max",
+    "start": "pm2 start dist/index.js -i max --no-daemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
