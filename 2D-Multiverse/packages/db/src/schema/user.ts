@@ -16,7 +16,8 @@ const UserSchema: Schema<IUser> = new Schema({
   role: { type: String, enum: ['Admin', 'User'], required: true },
   spaces: [{ type: Schema.Types.ObjectId, ref: 'Space' }]
 });
-
+UserSchema.index({id:1});
+UserSchema.index({username:1});
 const User = mongoose.model<IUser>('User', UserSchema);
 
 export default User;
