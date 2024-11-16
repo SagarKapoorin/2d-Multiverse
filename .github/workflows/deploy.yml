@@ -50,5 +50,5 @@ jobs:
           sleep 3
       - name: Run tests
         run: |
-            cd test
+            cd tests
             npm run test
