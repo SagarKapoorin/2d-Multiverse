@@ -51,4 +51,5 @@ jobs:
       - name: Run tests
         run: |
             cd tests
+            npm install
             npm run test
