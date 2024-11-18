@@ -13,15 +13,15 @@ import path from 'path';
 const envPath = path.resolve(__dirname, '../../../../.env');
 dotenv.config({ path: envPath });
 import User, { IUser } from '@repo/db/user';
-console.log("working")
+// console.log("working")
 passport.serializeUser((user,done) => {
-    console.log("yes4");
+    // console.log("yes4");
   done(null, user);
 });
 
 passport.deserializeUser(async (id: string, done: (err: any, user?: Document | null) => void) => {
   try {
-    console.log("yes5");
+    // console.log("yes5");
     const user = await User.findById(id);
     done(null, user);
   } catch (err) {
@@ -43,9 +43,20 @@ passport.use(
     },
     async ( req: Request, accessToken: string, refreshToken: string, params: GoogleCallbackParameters, profile: Profile, done: VerifyCallback)    => {
       try {
-        console.log("yes")
-        const existingUser = await User.findOne({ googleId: profile.id });
+        // console.log("yes")
+        const existingUser = await User.findOne({ id: profile.id });
+        const secret=process.env.JWT_SECRET;
+        if (!secret) {
+            throw new Error("JWT_SECRET is not defined in environment variables");
+        }
         if (existingUser) {
+            const token = jwt.sign({
+                userId: existingUser.id,
+                role: existingUser.role}, secret);
+
+                if(req.session)req.session.token=token;
+                
+                req.userId=existingUser.id;
           return done(null, existingUser);
         }
         const salt = await bcrypt.genSalt();
@@ -55,16 +66,11 @@ passport.use(
             username:profile.displayName,
             password:passwordHash,
         })
-        const secret=process.env.JWT_SECRET;
-        if (!secret) {
-            throw new Error("JWT_SECRET is not defined in environment variables");
-        }
+       
         // console.log(user)
+        console.log("created");
         await user.save();
-        const token = jwt.sign({
-            userId: user.id,
-            role: user.role}, secret);
-            if(req.session)req.session.token=token;
+       
         done(null, user);
       } catch (err) {
         done(err, undefined);

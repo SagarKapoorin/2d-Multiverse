@@ -18,9 +18,5 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "dependencies": {
-    "passport": "^0.5.3",
-    "passport-google-oauth20": "^2.0.0"
-  }
+  ]
 }

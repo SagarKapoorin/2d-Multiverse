@@ -15,7 +15,8 @@ router.get(
     '/auth/google/callback',
     passport.authenticate('google'),
     (req, res) => {
-        console.log("yes7");
+        // console.log("yes7");
+        if(req.session)console.log(req.session.token);
       res.redirect('/blogs');
     }
   );
@@ -24,7 +25,7 @@ router.get(
     '/auth/google',
     passport.authenticate('google', {
       scope: ['profile', 'email']
-    }),()=>console.log("yes3"),
+    })
   );
 
 router.get('/auth/logout', (req, res) => {
