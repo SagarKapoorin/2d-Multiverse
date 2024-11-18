@@ -8,7 +8,33 @@ import jwt from "jsonwebtoken";
 import User from "@repo/db/user";
 import Avatar from "@repo/db/avatar";
 import Element from "@repo/db/elements";
+import passport from "passport";
 export const router=Router();
+
+router.get(
+    '/auth/google/callback',
+    passport.authenticate('google'),
+    (req, res) => {
+        console.log("yes7");
+      res.redirect('/blogs');
+    }
+  );
+
+router.get(
+    '/auth/google',
+    passport.authenticate('google', {
+      scope: ['profile', 'email']
+    }),()=>console.log("yes3"),
+  );
+
+router.get('/auth/logout', (req, res) => {
+    req.logout((err) => {
+        if (err) {
+          return res.status(500).send('Error logging out');
+        }
+        res.redirect('/');
+      });
+  });
 
 router.post("/signup",async(req,res)=>{
     const parseData=SignupSchema.safeParse(req.body);

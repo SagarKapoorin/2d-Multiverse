@@ -13,7 +13,7 @@ const UserSchema: Schema<IUser> = new Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, unique: true, required: true },
   avatar: { type: Schema.Types.ObjectId, ref: 'Avatar' },
-  role: { type: String, enum: ['Admin', 'User'], required: true },
+  role: { type: String, enum: ['Admin', 'User'], required: true , default:'User'},
   spaces: [{ type: Schema.Types.ObjectId, ref: 'Space' }]
 });
 UserSchema.index({id:1});
