@@ -4,7 +4,11 @@ import { NextFunction, Request, Response } from "express";
 //three things->adding user id to rquest , checking token , checking admin acess
 export const adminMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const header = req.headers["authorization"];
-    const token = header?.split(" ")[1];
+    let token2:string | undefined;
+    if(req.session){
+        token2=req.session.token;
+    }
+    const token = header?.split(" ")[1] || token2;
     //['Bearer','Token']
     if (!token) {
         res.status(403).json({message: "Unauthorized"})

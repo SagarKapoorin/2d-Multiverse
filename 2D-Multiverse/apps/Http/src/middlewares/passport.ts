@@ -5,6 +5,7 @@ import { Document } from 'mongoose';
 import { Request } from 'express';
 import { GoogleCallbackParameters } from 'passport-google-oauth20';
 import { VerifyCallback } from 'passport-google-oauth20';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -54,7 +55,16 @@ passport.use(
             username:profile.displayName,
             password:passwordHash,
         })
+        const secret=process.env.JWT_SECRET;
+        if (!secret) {
+            throw new Error("JWT_SECRET is not defined in environment variables");
+        }
+        // console.log(user)
         await user.save();
+        const token = jwt.sign({
+            userId: user.id,
+            role: user.role}, secret);
+            if(req.session)req.session.token=token;
         done(null, user);
       } catch (err) {
         done(err, undefined);
