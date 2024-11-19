@@ -1,7 +1,3 @@
 1. database in reusable part as in future websocket can also use it along with http
 2. mapElement is intermediate b/w map and element ,using it to store x,y and it better understanding like this
-3. how to export package:convert to js in dist
-export in package.json in js form
-few changes in module,moduledetction and modulersoluiton of app
-change in package.json dependencies
-add types and default in exports
+3

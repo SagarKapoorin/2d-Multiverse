@@ -18,5 +18,9 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "socket.io": "^4.8.1",
+    "uuid": "^11.0.3"
+  }
 }
