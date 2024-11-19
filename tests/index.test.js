@@ -961,8 +961,8 @@ describe("Websocket tests", () => {
 
         expect(message1.type).toBe("space-joined")
         expect(message2.type).toBe("space-joined")
-        expect(message1.payload.users.length).toBe(0)
-        expect(message2.payload.users.length).toBe(1)
+        expect(message1.payload.users).toBe(1)
+        expect(message2.payload.users).toBe(2)
         expect(message3.type).toBe("user-joined");
         expect(message3.payload.x).toBe(message2.payload.spawn.x);
         expect(message3.payload.y).toBe(message2.payload.spawn.y);

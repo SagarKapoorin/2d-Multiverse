@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { RoomManager } from "./RoomManager";
+import { io } from ".";
 import { OutgoingMessage } from "./types";
 import Space from "@repo/db/space";
 import jwt, { JwtPayload } from "jsonwebtoken";
@@ -57,7 +57,8 @@ export class User {
                     }
 
                     this.spaceId = spaceId;
-                    RoomManager.getInstance().addUser(spaceId, this);
+                 
+                    this.socket.join(spaceId); 
                     //placing at random loacation.
                     this.x = Math.floor(Math.random() * (space.width || 0));
                     this.y = Math.floor(Math.random() * (space.height || 0));
@@ -69,19 +70,15 @@ export class User {
                                 x: this.x,
                                 y: this.y
                             },
-                            users: RoomManager.getInstance().rooms.get(spaceId)?.filter((x:User) => x.id !== this.id)?.map((u:User) => ({ id: u.id })) ?? []
+                            users: io.sockets.adapter.rooms.get(this.spaceId!)?.size || 0,
                         }
                     });
                     //sending broadcast message that user joined to all
-                    RoomManager.getInstance().broadcast({
+                    
+                    this.socket.to(spaceId).emit("message",JSON.stringify( {
                         type: "user-joined",
-                        payload: {
-                            userId: this.userId,
-                            x: this.x,
-                            y: this.y
-                        }
-                    }, this, this.spaceId!);
-
+                        payload: { userId: this.userId, x: this.x, y: this.y }
+                    }));
                     break;
 
                 case "move":
@@ -98,13 +95,13 @@ export class User {
                         this.y = moveY;
                         //brodcast message for movement
                         console.log("working");
-                        RoomManager.getInstance().broadcast({
+                        this.socket.to(this.spaceId!).emit("message",JSON.stringify( {
                             type: "movement",
                             payload: {
                                 x: this.x,
                                 y: this.y
                             }
-                        }, this, this.spaceId!);
+                        }));
                         return;
                     }
 
@@ -123,13 +120,13 @@ export class User {
     destroy() {
         //user left
         console.log("destroyed");
-        RoomManager.getInstance().broadcast({
+        this.socket.to(this.spaceId!).emit("message",JSON.stringify( {
             type: "user-left",
             payload: {
                 userId: this.userId
             }
-        }, this, this.spaceId!);
-        RoomManager.getInstance().removeUser(this, this.spaceId!);
+        }));
+        this.socket.leave(this.spaceId!);
     }
     send(payload: OutgoingMessage) {
         this.socket.emit("message", JSON.stringify(payload));

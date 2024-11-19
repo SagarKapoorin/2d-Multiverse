@@ -7,7 +7,7 @@ import { User } from "./User";
 
 const httpServer = createServer();
 
-const io = new Server(httpServer,{
+export const io = new Server(httpServer,{
     cors:{
         origin:['*'],
         credentials: true
