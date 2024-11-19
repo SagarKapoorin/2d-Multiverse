@@ -937,6 +937,7 @@ describe("Websocket tests", () => {
         await setupHTTP()
         await setupWs()
     })
+    
 
     test(" for joining the space", async () => {
         socket1.emit("message", {
@@ -1026,5 +1027,10 @@ describe("Websocket tests", () => {
         expect(message.type).toBe("user-left");
         expect(message.payload.userId).toBe(adminUserId);
     });
-    
+
+    afterAll(() => {
+        socket1.disconnect();
+        socket2.disconnect();
+        console.log('WebSocket connections closed.');
+    });
 })
