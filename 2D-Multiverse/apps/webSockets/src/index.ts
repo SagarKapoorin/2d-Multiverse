@@ -1,6 +1,7 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { v4 as uuid } from "uuid";
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { User } from "./User";
 
@@ -13,7 +14,7 @@ const io = new Server(httpServer,{
     }
 });
 
-io.engine.generateId = (req) => {
+io.engine.generateId = (req:Request) => {
     return uuid();
 }
 

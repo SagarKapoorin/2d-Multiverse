@@ -39,12 +39,17 @@ jobs:
         run: |
           cd 2D-Multiverse/apps/Http
           npm install
-          npm run build
           cd ../webSockets
           npm install
-          npm run build
           cd ../../packages
           npm install
+      - name: Building Build
+        run: |
+          cd 2D-Multiverse/apps/Http
+          npm run build
+          cd ../webSockets
+          npm run build
+          cd ../../packages
           npm run build
       - name: Start Websockets
         run: |
