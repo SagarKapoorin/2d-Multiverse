@@ -5,6 +5,7 @@ import { Document } from 'mongoose';
 import { Request } from 'express';
 import { GoogleCallbackParameters } from 'passport-google-oauth20';
 import { VerifyCallback } from 'passport-google-oauth20';
+import { clearHash } from './cache';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
@@ -22,7 +23,7 @@ passport.serializeUser((user,done) => {
 passport.deserializeUser(async (id: string, done: (err: any, user?: Document | null) => void) => {
   try {
     // console.log("yes5");
-    const user = await User.findById(id);
+    const user = await User.findById(id).cache({key:"User"});
     done(null, user);
   } catch (err) {
     done(err, null);
@@ -44,7 +45,7 @@ passport.use(
     async ( req: Request, accessToken: string, refreshToken: string, params: GoogleCallbackParameters, profile: Profile, done: VerifyCallback)    => {
       try {
         // console.log("yes")
-        const existingUser = await User.findOne({ id: profile.id });
+        const existingUser = await User.findOne({ id: profile.id }).cache({key:"User"});
         const secret=process.env.JWT_SECRET;
         if (!secret) {
             throw new Error("JWT_SECRET is not defined in environment variables");
@@ -61,6 +62,7 @@ passport.use(
         }
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(profile.id, salt);
+        clearHash("User");
         const user=new User({
             id:profile.id,
             username:profile.displayName,

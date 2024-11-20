@@ -10,6 +10,7 @@ import { ISpace } from "@repo/db/space";
 import mongoose from "mongoose";
 export const spaceRouter = Router();
 import MapElements, { IMapElements } from "@repo/db/mapElements";
+import { clearHash } from "../../middlewares/cache";
 spaceRouter.use(userMiddleware);
 
 spaceRouter.post("/",  async (req, res) => {
@@ -21,6 +22,7 @@ spaceRouter.post("/",  async (req, res) => {
     }
     console.log(req.userId);
     console.log(parsedData);
+    clearHash("Space");
     if (!parsedData.data.mapId) { //blank space creation
         const space = new Space({
             name: parsedData.data.name,
@@ -38,13 +40,15 @@ spaceRouter.post("/",  async (req, res) => {
     const map = await Map.findOne(
         { _id: parsedData.data.mapId },
         { width: 1, height: 1, mapElements: 1 }
-    ).populate<{ mapElements: IMapElements[] }>('mapElements').exec();
+    ).cache({
+        key:"Map"
+    }).populate<{ mapElements: IMapElements[] }>('mapElements').exec();
     
     if (!map) {
         res.status(400).json({ message: "Map not found" });
         return;
     }
-    
+    clearHash("Space");
     const space = new Space({
         name: parsedData.data.name,
         width: map.width,
@@ -59,7 +63,7 @@ spaceRouter.post("/",  async (req, res) => {
         x: e.x,
         y: e.y
     }));
-    
+    clearHash("SpaceElements");
     if (spaceElementsData && spaceElementsData.length > 0) {
         const insertedSpaceElements = await SpaceElements.insertMany(spaceElementsData);
         const spaceElementIds = insertedSpaceElements.map((e) => e._id);
@@ -92,16 +96,18 @@ spaceRouter.delete("/element",  async (req, res) => {
     }
     const spaceElement = await SpaceElements.findOne({
         _id: parsedData.data.id
+    }).cache({
+        key:"SpaceElements"
     }).populate<{ space : ISpace}>('space').exec();  
     
     console.log(spaceElement?.space);
-    console.log("spaceElement?.space");
+    // console.log("spaceElement?.space");
     
     if (!spaceElement?.space || !spaceElement.space.creator ) {
         res.status(403).json({ message: "Unauthorized" });
         return;
     }
-    
+    clearHash("SpaceElements");
     await SpaceElements.deleteOne({
         _id: parsedData.data.id
     });
@@ -113,7 +119,9 @@ spaceRouter.delete("/element",  async (req, res) => {
 spaceRouter.get("/all", async (req, res) => {
     const spaces = await Space.find({
             creator: req.userId!
-    });
+    }).cache({
+        key:"Space"
+});
     res.json({
         spaces: spaces.map(s => ({
             id: s.id,
@@ -134,31 +142,35 @@ spaceRouter.post("/element", async (req, res) => {
         return
     }
     
-   console.log("1");
+//    console.log("1");
     const space = await Space.findOne( {
             _id: req.body.spaceId,
             creator: req.userId!
         }
-    ).select('width height')
-console.log("two")
+    ).cache({
+        key:"Space"
+    }).select('width height')
+
     if(req.body.x < 0 || req.body.y < 0 || req.body.x > space?.width! || req.body.y > space?.height!) {
-        console.log("three");
+        // console.log("three");
         res.status(400).json({message: "Point is outside of the boundary"})
         return
     }
 
     if (!space) {
-        console.log("4");
+        // console.log("4");
         res.status(400).json({message: "Space not found"})
         return
     }
     // console.log(space);
+    clearHash("SpaceElements");
     const newSpaceElements=new SpaceElements({
             space: req.body.spaceId,
             element: req.body.elementId,
             x: req.body.x,
             y: req.body.y
     })
+    clearHash("Space");
     const updatedSpace = await Space.findByIdAndUpdate(
         { _id: req.body.spaceId },
         {
@@ -166,7 +178,6 @@ console.log("two")
         },
         { new: true } 
       );
-      console.log("5")
       console.log(updatedSpace)
     await newSpaceElements.save();
 
@@ -178,14 +189,17 @@ spaceRouter.delete("/:spaceId",async (req, res) => {
         res.status(400).json({message: "Space not found"})
         return
     }
-    console.log(req.params.spaceId);
+    // console.log(req.params.spaceId);
+
     const space = await Space.findOne(
          {
             _id: req.params.spaceId
         }
-    ).select('creator');
+    ).cache({
+        key:"Space",
+    }).select('creator');
     console.log(space);
-    console.log(req.userId);
+    // console.log(req.userId);
     if (!space) {
         res.status(400).json({message: "Space not found"})
         return
@@ -195,6 +209,7 @@ spaceRouter.delete("/:spaceId",async (req, res) => {
         res.status(403).json({message: "Unauthorized"})
         return
     }
+    clearHash("Space");
     await Space.findByIdAndDelete(
      {
             _id: req.params.spaceId
@@ -222,7 +237,7 @@ if (!space) {
 res.status(400).json({message: "Space not found"})
 return
 }
-
+console.log(space.width);
 res.json({
 "dimensions": `${space.width}x${space.height}`,
 elements: space.elements.map(e => ({

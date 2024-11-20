@@ -6,9 +6,11 @@ import Element from "@repo/db/elements";
 import Avatar from "@repo/db/avatar";
 import Map from "@repo/db/map";
 import MapElements from "@repo/db/mapElements";
+import { clearHash } from "../../middlewares/cache";
 adminRouter.use(adminMiddleware);
 
 adminRouter.post("/element",async(req,res)=>{
+    clearHash("Element");
     const parsedData = CreateElementSchema.safeParse(req.body)
     if (!parsedData.success) {
         res.status(400).json({message: "Validation failed"})
@@ -28,6 +30,7 @@ adminRouter.post("/element",async(req,res)=>{
     })
 })
 adminRouter.put("/element/:elementId",async(req,res)=>{
+    clearHash("Element");
     const parsedData = UpdateElementSchema.safeParse(req.body)
     if (!parsedData.success) {
         res.status(400).json({message: "Validation failed"})
@@ -42,6 +45,7 @@ adminRouter.put("/element/:elementId",async(req,res)=>{
     res.json({message: "Element updated"})
 })
 adminRouter.post("/avatar",async(req,res)=>{
+    clearHash("Avatar");
     const parsedData = CreateAvatarSchema.safeParse(req.body)
     if (!parsedData.success) {
         res.status(400).json({message: "Validation failed"})
@@ -62,7 +66,8 @@ adminRouter.post("/avatar",async(req,res)=>{
     
 })
 adminRouter.post("/map",async(req,res)=>{
-
+    clearHash("Map");
+    clearHash("MapElements");
     const parsedData = CreateMapSchema.safeParse(req.body);
     if (!parsedData.success) {
         console.log("no")

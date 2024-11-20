@@ -440,6 +440,7 @@ describe('Map Information',()=>{
 
     })
 })
+
 describe("Arena endpoints", () => {
     let mapId;
     let element1Id;
@@ -926,7 +927,14 @@ describe("Websocket tests", () => {
             console.log(data);
             ws2Messages.push(JSON.parse(data));
         });
-    
+        socket1.on("error", (err) => {
+            console.error("Error in socket1:", err);
+            socket1.disconnect();
+        });
+        socket2.on("error", (err) => {
+            console.error("Error in socket2:", err);
+            socket2.disconnect();
+        });
         await new Promise(r => {
             socket2.on("connect", r);
         });    

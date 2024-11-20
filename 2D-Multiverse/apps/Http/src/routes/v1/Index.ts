@@ -3,6 +3,7 @@ import { userRouter } from "./user";
 import { adminRouter } from "./admin";
 import { spaceRouter } from "./space";
 import { SigninSchema, SignupSchema } from "../../validation";
+import { clearHash } from "../../middlewares/cache";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "@repo/db/user";
@@ -38,6 +39,7 @@ router.get('/auth/logout', (req, res) => {
   });
 
 router.post("/signup",async(req,res)=>{
+    clearHash("User");
     const parseData=SignupSchema.safeParse(req.body);
     if(!parseData.success){
         console.log("parsed data incorrect")
@@ -71,7 +73,8 @@ router.post("/signin", async (req, res) => {
         return
     }
     try {
-        const user = await User.findOne({ username:parsedData.data.username });
+        
+        const user = await User.findOne({ username:parsedData.data.username }).cache({key:"User"});
         if (!user) {
             res.status(403).json({message: "User not found"})
             return
@@ -85,7 +88,7 @@ router.post("/signin", async (req, res) => {
         if (!secret) {
             throw new Error("JWT_SECRET is not defined in environment variables");
         }
-        // console.log(user)
+        console.log(user)
         const token = jwt.sign({
             userId: user.id,
             role: user.role}, secret);
@@ -96,7 +99,10 @@ router.post("/signin", async (req, res) => {
     }
 })
 router.get("/avatars",async(req,res)=>{
-    const avatars = await Avatar.find({});
+   
+    const avatars = await Avatar.find({}).cache({
+        key: "Avatar",
+      });
     res.json({avatars: avatars.map(x => ({
         id: x.id,
         imageUrl: x.imageUrl,
@@ -104,7 +110,9 @@ router.get("/avatars",async(req,res)=>{
     }))})
 })
 router.get("/elements", async(req,res)=>{
-    const elements = await Element.find({});
+    const elements = await Element.find({}).cache({
+        key:"Element",
+    });
 
     res.json({elements: elements.map(e => ({
         id: e.id,

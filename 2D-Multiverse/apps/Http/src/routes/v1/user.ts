@@ -4,6 +4,7 @@ export const userRouter=Router();
 import { UpdateMetadataSchema } from "../../validation";
 import User from "@repo/db/user";
 import { userMiddleware } from "../../middlewares/user";
+import { clearHash } from "../../middlewares/cache";
 userRouter.post("/metadata",userMiddleware,async(req,res)=>{
     // console.log(req);
     const parsedData = UpdateMetadataSchema.safeParse(req.body)       
@@ -14,6 +15,7 @@ userRouter.post("/metadata",userMiddleware,async(req,res)=>{
     }
     try {
         console.log(parsedData.data.avatarId);
+        clearHash("User");
         const user=await User.findOneAndUpdate(
             { id: req.userId },
             { avatar : parsedData.data.avatarId},
@@ -40,7 +42,7 @@ userRouter.get("/metadata/bulk",async(req,res)=>{
     const metadata = await User.find(
         { id: { $in: objectIds } },
         { id: 1, avatar: 1 } 
-    )
+    ).cache({key:"User"})
     .populate('avatar', 'imageUrl');
     console.log(metadata);
     res.json({
