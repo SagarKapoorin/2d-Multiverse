@@ -70,7 +70,7 @@ passport.use(
             secret
           );
 
-          if (req.session) req.session.token = token;
+          if (req.session){ req.session.token = token; console.log(req.session.token);}
 
           req.userId = existingUser.id;
           return done(null, existingUser);

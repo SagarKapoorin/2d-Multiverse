@@ -51,12 +51,12 @@ const Form = () => {
     values: RegisterValues,
     onSubmitProps: FormikHelpers<RegisterValues>
   ) => {
-    const response = await fetch("http://localhost:3001/auth/register", {
+    const response = await fetch("http://localhost:3000/api/v1/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...values,
-        role: values.role || "user",
+        type: values.role || "user",
       }),
     });
     const savedUser = await response.json();
@@ -71,25 +71,25 @@ const Form = () => {
     values: LoginValues,
     onSubmitProps: FormikHelpers<LoginValues>
   ) => {
-    const response = await fetch("http://localhost:3001/auth/login", {
+    const response = await fetch("http://localhost:3000/api/v1/signin", {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
     });
     const loggedIn = await response.json();
     onSubmitProps.resetForm();
-
+    console.log(loggedIn.token);
     if (loggedIn) {
       dispatch(
         setLogin({
-          user: loggedIn.user,
+        //   user: loggedIn.user,
           token: loggedIn.token,
         })
       );
       navigate("/home");
     }
   };
-
   const handleFormSubmit = async (
     values: RegisterValues | LoginValues,
     onSubmitProps: FormikHelpers<RegisterValues | LoginValues>

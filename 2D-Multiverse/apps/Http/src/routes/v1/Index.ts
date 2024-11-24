@@ -99,7 +99,7 @@ router.post("/signin", async (req, res) => {
       },
       secret
     );
-    if (req.session) req.session.token = token;
+    if (req.session){req.session.token = token;console.log(req.session.token);}
     res.json({ token });
   } catch (e) {
     res.status(400).json({ message: "Internal server error" });

@@ -21,6 +21,7 @@ app.use(
     name: "session",
     maxAge: 30 * 24 * 60 * 60 * 1000,
     keys: [cookieKey],
+    
   })
 );
 app.use(passport.session());
@@ -29,7 +30,10 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+app.use(cors({
+  origin:"http://localhost:5173",
+  credentials: true,
+}));
 
 const PORT: string = process.env.PORT || "3000";
 // console.log(PORT);

@@ -11,6 +11,7 @@ export const adminMiddleware = (
   if (req.session) {
     token2 = req.session.token;
   }
+  console.log(token2)
   const token = header?.split(" ")[1] || token2;
   //['Bearer','Token']
   if (!token) {
