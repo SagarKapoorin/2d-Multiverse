@@ -18,8 +18,7 @@ const LoginBox= () => {
       </Box>
       <Box
         width={isNonMobileScreens ? "50%" : "90%"}
-        p="2rem"
-        m="2rem auto"
+        m="1.6rem auto"
         bgcolor="transparent"
       >
         <Form />

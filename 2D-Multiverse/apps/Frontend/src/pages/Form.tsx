@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../state";
+import Google from "../components/Google"
 
 
 interface RegisterValues {
@@ -90,6 +91,10 @@ const Form = () => {
       navigate("/home");
     }
   };
+  const GoogleLogin=async()=>{
+  window.location.href = 'http://localhost:3000/api/v1/auth/google';
+ 
+  }
   const handleFormSubmit = async (
     values: RegisterValues | LoginValues,
     onSubmitProps: FormikHelpers<RegisterValues | LoginValues>
@@ -117,7 +122,7 @@ const Form = () => {
         resetForm,
       }) => (
         <form onSubmit={handleSubmit}>
-          <Box display="flex" flexDirection="column" gap="20px" maxWidth="400px" margin="auto">
+          <Box display="flex" flexDirection="column" gap="20px"  maxWidth="400px" margin="auto">
             <TextField
               label="Username"
               onBlur={handleBlur}
@@ -192,6 +197,20 @@ const Form = () => {
             </Button>
             <Typography
             color="#2C3E50"
+            fontSize="15px"
+            ml="8px"
+              onClick={() => {
+                // resetForm();
+                GoogleLogin();
+              
+              }}
+              sx={{ textAlign: "center", }}
+            >
+             <Google/>
+            </Typography>
+            <Typography
+            color="#2C3E50"
+            fontSize="13px"
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
                 resetForm();
