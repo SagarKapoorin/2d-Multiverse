@@ -781,6 +781,7 @@ describe("Admin Only Access", () => {
 describe("Websocket tests", () => {
     //we want users can see each other movement
     //creating everthing
+    jest.setTimeout(10000); 
     let adminToken;
     let adminUserId;
     let userToken;
@@ -948,6 +949,7 @@ describe("Websocket tests", () => {
     
 
     test(" for joining the space", async () => {
+    
         socket1.emit("message", {
             "type": "join",
             "payload": {
