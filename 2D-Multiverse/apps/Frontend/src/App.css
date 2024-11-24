@@ -6,9 +6,17 @@ padding: 0px;
 overflow: hidden;
 }
 .Loginpage{
+  display: flex;
+  justify-content: center;
 width: 100vw;
 height: 110vh;
 overflow: hidden;
 margin: 0px;
 padding: 0px;
+}
+.LoginBox{
+  width:50vw;
+  height: 0vh;
+  position: absolute;
+  top: 0px;
 }

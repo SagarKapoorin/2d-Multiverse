@@ -3,13 +3,14 @@
 
 import LoginBox from "./LoginBox"
 
-// import CubeBG from '../components/CubeBG'
+import CubeBG from '../components/CubeBG'
 const Login = () => {
   return (
     <>
     <div className='Loginpage'>
-      {/* <CubeBG/> */}
-<LoginBox/>
+      <CubeBG/>
+      <div className="LoginBox"><LoginBox/></div>
+
     </div>
  
     </>

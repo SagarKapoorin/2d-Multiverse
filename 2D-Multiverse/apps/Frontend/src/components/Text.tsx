@@ -5,15 +5,14 @@ const Text = () => {
   return (
     <StyledWrapper>
       <button className="button" data-text="Awesome">
-        <span className="actual-text">&nbsp;uiverse&nbsp;</span>
-        <span aria-hidden="true" className="hover-text">&nbsp;uiverse&nbsp;</span>
+        <span className="actual-text">&nbsp;Multiverse&nbsp;</span>
+        <span aria-hidden="true" className="hover-text">&nbsp;Multiverse&nbsp;</span>
       </button>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
-  /* === removing default button style ===*/
   .button {
     margin: 0;
     height: auto;
@@ -22,12 +21,10 @@ const StyledWrapper = styled.div`
     border: none;
     cursor: pointer;
   }
-
-  /* button styling */
   .button {
     --border-right: 6px;
-    --text-stroke-color: rgba(255,255,255,0.6);
-    --animation-color: #37FF8B;
+    --text-stroke-color: #e14f5b;
+    --animation-color: #2C3E50;
     --fs-size: 2em;
     letter-spacing: 3px;
     text-decoration: none;
@@ -35,11 +32,13 @@ const StyledWrapper = styled.div`
     font-family: "Arial";
     position: relative;
     text-transform: uppercase;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--text-stroke-color);
+    color: #e14f5b;
+    font-weigth:"Bold";
+        padding-right:20px;
+    -webkit-text-stroke: 6px var(--text-stroke-color);
   }
-  /* this is the text, when you hover on button */
   .hover-text {
+  
     position: absolute;
     box-sizing: border-box;
     content: attr(data-text);
@@ -51,8 +50,8 @@ const StyledWrapper = styled.div`
     transition: 0.5s;
     -webkit-text-stroke: 1px var(--animation-color);
   }
-  /* hover */
   .button:hover .hover-text {
+    padding-right:20px;
     width: 100%;
     filter: drop-shadow(0 0 23px var(--animation-color))
   }`;

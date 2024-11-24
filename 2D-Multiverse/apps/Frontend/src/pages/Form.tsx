@@ -118,9 +118,6 @@ const Form = () => {
       }) => (
         <form onSubmit={handleSubmit}>
           <Box display="flex" flexDirection="column" gap="20px" maxWidth="400px" margin="auto">
-            <Typography variant="h4" textAlign="center">
-              {isLogin ? "Login" : "Sign Up"}
-            </Typography>
             <TextField
               label="Username"
               onBlur={handleBlur}
@@ -130,6 +127,16 @@ const Form = () => {
               error={Boolean(touched.username) && Boolean(errors.username)}
               helperText={touched.username && errors.username}
               fullWidth
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused": {
+                    "& fieldset": {
+                      borderColor: "#2C3E50", 
+                    },
+                  },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#2C3E50", 
+                },
+              }}
             />
             <TextField
               label="Password"
@@ -141,6 +148,16 @@ const Form = () => {
               error={Boolean(touched.password) && Boolean(errors.password)}
               helperText={touched.password && errors.password}
               fullWidth
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused": {
+                    "& fieldset": {
+                      borderColor: "#2C3E50", 
+                    },
+                  },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "#2C3E50", 
+                },
+              }}
             />
             {isRegister && (
               <TextField
@@ -152,12 +169,29 @@ const Form = () => {
                 error={Boolean(touched.role) && Boolean(errors.role)}
                 helperText={touched.role && errors.role}
                 fullWidth
+                sx={{
+                    "& .MuiOutlinedInput-root.Mui-focused": {
+                        "& fieldset": {
+                          borderColor: "#2C3E50", 
+                        },
+                      },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#2C3E50", 
+                    },
+                  }}
               />
             )}
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+            <Button type="submit" variant="contained"  sx={{
+    backgroundColor: "#e14f5b", 
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#f5a3b1",
+    },
+  }}  fullWidth>
               {isLogin ? "Login" : "Sign Up"}
             </Button>
             <Typography
+            color="#2C3E50"
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
                 resetForm();
