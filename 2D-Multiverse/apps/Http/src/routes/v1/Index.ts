@@ -7,18 +7,20 @@ import { clearHash } from "../../middlewares/cache";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "@repo/db/user";
+import {IAvatar} from "@repo/db/avatar";
 import Avatar from "@repo/db/avatar";
 import Element from "@repo/db/elements";
 import passport from "passport";
+import Map from "@repo/db/map";
 export const router = Router();
 
 router.get(
   "/auth/google/callback",
   passport.authenticate("google"),
-  (req, res) => {
+  async(req, res) => {
     // console.log("yes7");
-    if (req.session) console.log(req.session.token);
-    res.redirect("/blogs");
+    setTimeout(()=> res.redirect("http://localhost:5173/user"),1000);
+   
   }
 );
 
@@ -74,7 +76,7 @@ router.post("/signin", async (req, res) => {
   try {
     const user = await User.findOne({
       username: parsedData.data.username,
-    }).cache({ key: "User" });
+    }).populate<{ avatar: IAvatar }>("avatar")
     if (!user) {
       res.status(403).json({ message: "User not found" });
       return;
@@ -100,8 +102,12 @@ router.post("/signin", async (req, res) => {
       secret
     );
     if (req.session){req.session.token = token;console.log(req.session.token);}
-    res.json({ token });
+    console.log("-------")
+    // console.log(user.avatar.imageUrl);
+    res.json({ name:user.username,token, avatarId: user.avatar?.imageUrl ?? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
+      spaces:user.spaces,role:user.role });
   } catch (e) {
+    console.log(e);
     res.status(400).json({ message: "Internal server error" });
   }
 });
@@ -140,6 +146,18 @@ router.get("/elements", async (req, res) => {
     res.status(400).json({ message: "Internal Server Error" });
   }
 });
+router.get("/maps",async(req,res)=>{
+  try {
+    const elements = await Map.find({}).cache({
+      key: "Map",
+    });
+    res.json({
+      elements
+    });
+  } catch (err) {
+    res.status(400).json({ message: "Internal Server Error" });
+  }
+})
 router.use("/user", userRouter);
 router.use("/space", spaceRouter);
 router.use("/admin", adminRouter);

@@ -51,9 +51,10 @@ mongoose.Query.prototype.exec = async function () {
   if (!this.useCache) {
     return exec.apply(this, arguments as unknown as []);
   }
+  console.log("-------");
   console.log(this.getQuery());
   console.log(this.mongooseCollection.name);
-
+console.log("-------");
   const result = JSON.stringify(
     Object.assign({}, this.getQuery(), {
       collection: this.mongooseCollection.name,
@@ -63,9 +64,10 @@ mongoose.Query.prototype.exec = async function () {
   const cached = await client.hGet(this.hashKey, result);
 
   if (cached) {
-    console.log(cached);
+    // console.log(cached);
     console.log("SERVING FROM Cache");
     const doc = JSON.parse(cached);
+    console.log(doc);
     return Array.isArray(doc)
       ? doc.map((d) => new this.model(d))
       : new this.model(doc);

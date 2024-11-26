@@ -6,7 +6,7 @@ import User from "@repo/db/user";
 import { userMiddleware } from "../../middlewares/user";
 import { clearHash } from "../../middlewares/cache";
 userRouter.post("/metadata", userMiddleware, async (req, res) => {
-  // console.log(req);
+  console.log(req);
   const parsedData = UpdateMetadataSchema.safeParse(req.body);
   if (!parsedData.success) {
     console.log("parsed data incorrect");

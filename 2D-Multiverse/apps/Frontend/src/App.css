@@ -3,7 +3,11 @@ width: 100vw;
 height: 100vh;
 margin: 0px;
 padding: 0px;
-overflow: hidden;
+/* overflow: hidden; */
+}
+
+*{
+  font-family: "Kanit", sans-serif;
 }
 .Loginpage{
   display: flex;
@@ -20,3 +24,150 @@ padding: 0px;
   position: absolute;
   top: 0px;
 }
+.UserPage{
+  width: 100vw;
+  height: 110vh;
+overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.L-Button{
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+.User-SubPart{
+  position: absolute;
+  z-index: 1;
+  margin-top: -60px;
+}
+.Profile-detail{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 50px;
+}
+.Profile-detail h1,.Profile-detail h5,.Profile-detail h3{
+  color: white;
+padding: 0px;
+margin:0px;
+}
+.changeit{
+  margin-top: 20px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.avatar{
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.UserImage2{
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 60px;
+}
+.UserImage{
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 120px;
+}
+.Role{
+  font-weight: 300;
+  /* font-size: 10px; */
+  margin-top: -10px !important;
+  margin: 0px;
+  padding: 0px;
+} 
+.Role2{
+  font-weight: 300;
+  /* font-size: 10px; */
+  margin-top: -10px !important;
+  margin: 0px;
+  padding: 0px;
+  padding-left: 20px !important;
+}
+.update-button{
+  display: flex;
+  justify-content: center;
+  padding-left: 10px;
+}
+.Update-avatar {
+  --color: white;
+  padding: 0.5em 1.3em;
+  background-color: transparent;
+  border-radius: .3em;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: .5s;
+  font-weight: 400;
+  font-size: 17px;
+  border: 1px solid;
+  text-transform: uppercase;
+  color: var(--color);
+  z-index: 1;
+ }
+ 
+ .Update-avatar::before, .Update-avatar::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  background-color: var(--color);
+  transition: 1s ease;
+ }
+ 
+ .Update-avatar::before {
+  top: -1em;
+  left: -1em;
+ }
+ .Plus{
+  color:white;
+  font-size: 50px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+ }
+ .six{
+  width:70px;
+  padding: 0.3rem 0.4rem !important;
+ }
+ .changeit{
+  gap:5px;
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+ }
+ .Update-avatar::after {
+  left: calc(100% + 1em);
+  top: calc(100% + 1em);
+ }
+ 
+ .Update-avatar:hover::before, .Update-avatar:hover::after {
+  height: 410px;
+  width: 410px;
+ }
+ 
+ .Update-avatar:hover {
+  color: rgb(10, 25, 30);
+ }
+ 
+ .Update-avatar:active {
+  filter: brightness(.8);
+ }
+ 

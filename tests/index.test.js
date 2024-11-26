@@ -105,7 +105,7 @@ describe('Authentication',()=>{
     })
 })
 describe('User Data get, changed and delete',()=>{
-    let token = ""; //token ya it needed to make sure user is auth
+    let token = ""; 
     let avatarId = "";
     beforeAll(async () => {
        const username = `SagarKapoor-${Math.random()}`

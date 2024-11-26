@@ -1,30 +1,70 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-  user: null,
+export interface Space_{
+  id:string,
+  name:string,
+  thumbnail:string|null,
+  dimensions:string,
+}
+export interface State_{
+  name:string|null;
+  token: string | null;
+  role: string | null;
+  avatarId: string | undefined;
+  spaces: Space_[]; 
+  avatars: any[];
+  change:number;
+}
+const initialState: State_ = {
+  name:null,
+  change:1,
   token: null,
-  spaces: [],
+  role: null,
+  avatarId: undefined,
+  spaces: [], 
+  avatars: [],
 };
+
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setChange:(state)=>{
+      state.change+=1;
+    },
+    setName:(state,action)=>{
+      state.name=action.payload.name;
+    },
+    setAvatarId:(state,action)=>{
+      state.avatarId=action.payload.avatarId || undefined;
+    },
+    setRole:(state,action)=>{
+      state.role=action.payload.role;
+    },
+    setSpaces:(state,action)=>{
+      state.spaces=action.payload.spaces;
+    },
     setLogin: (state, action) => {
       // state.user = action.payload.user;
       state.token = action.payload.token;
     },
+    setAvatar:(state,action)=>{
+      state.avatars=action.payload.avatar;
+    },
     setLogout: (state) => {
-      state.user = null;
       state.token = null;
     },
-    setSpaces:(state,action)=>{
-      state.spaces=action.payload.spaces
-    }
+    setUpdateSpaces: (state, action) => {
+      const updatedSpace = state.spaces.map((space) => {
+        if (space.id === action.payload.space.id) return action.payload.space;
+        return space;
+      });
+      state.spaces = updatedSpace;
+    },
 
   },
 });
 
-export const {setLogin, setLogout} =
+export const {setLogin,setRole,setChange, setLogout,setAvatar,setAvatarId,setSpaces,setUpdateSpaces,setName} =
   authSlice.actions;
 export default authSlice.reducer;

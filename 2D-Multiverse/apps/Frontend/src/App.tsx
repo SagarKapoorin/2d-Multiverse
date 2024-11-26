@@ -1,27 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import { useSelector, UseSelector } from "react-redux";
+// import { useSelector} from "react-redux";
 import './App.css';
 import Login from "./pages/Login";
-
-// interface State{
-//   user:string|null,
-//   token:string|null,
-//   spaces:any[],
-// }
-
+// import { State_ } from "./state";
+// import User from "./pages/User";
+// import CreateSpace from "./components/CreateSpace";
+import SpaceManager from "./pages/SpaceManager";
 function App() {
-  // const isAuth = Boolean( useSelector((state:State) => state.token));
-
+  // const isAuth = Boolean( useSelector((state:State_) => state.token));
   return (
     <>
     <BrowserRouter>
     <Routes>
             <Route path="/" element={<Login />} />
-            {/* <Route
-              path="/home"
-              element={isAuth ? <HomePage /> : <Navigate to="/" />}
-            />
             <Route
+              path="/user"
+              element={<SpaceManager/>  }
+            />
+            {/* <Route
               path="/profile/:userId"
               element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
             />

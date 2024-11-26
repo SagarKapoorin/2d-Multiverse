@@ -13,9 +13,24 @@ import { IElement } from "@repo/db/elements";
 import { ISpace } from "@repo/db/space";
 import mongoose from "mongoose";
 export const spaceRouter = Router();
+import User from "@repo/db/user";
+import { IAvatar } from "@repo/db/avatar";
 import MapElements, { IMapElements } from "@repo/db/mapElements";
 import { clearHash } from "../../middlewares/cache";
 spaceRouter.use(userMiddleware);
+
+spaceRouter.get('/google/user', async(req, res) => {
+  if (req.isAuthenticated()) {
+
+    const user = await User.findOne({
+      id: req.userId,
+    }).populate<{ avatar: IAvatar }>("avatar")
+    console.log(user);
+      res.json(user); 
+  } else {
+      res.status(401).json({ error: 'Not authenticated' });
+  }
+});
 
 spaceRouter.post("/", async (req, res) => {
   try {
@@ -45,12 +60,10 @@ spaceRouter.post("/", async (req, res) => {
     console.log(parsedData);
     const map = await Map.findOne(
       { _id: parsedData.data.mapId },
-      { width: 1, height: 1, mapElements: 1 }
-    )
-      .cache({
+      { width: 1, height: 1, mapElements: 1,thumbnail:1 }
+    ).populate<{ mapElements: IMapElements[] }>("mapElements").cache({
         key: "Map",
       })
-      .populate<{ mapElements: IMapElements[] }>("mapElements")
       .exec();
 
     if (!map) {
@@ -63,7 +76,11 @@ spaceRouter.post("/", async (req, res) => {
       width: map.width,
       height: map.height,
       creator: req.userId!,
+      thumbnail:map.thumbnail
     });
+    console.log("-----")
+    console.log(space);
+    console.log(map)
     await space.save();
 
     const spaceElementsData = map.mapElements?.map((e) => ({

@@ -26,6 +26,7 @@ passport.deserializeUser(
       // console.log("yes5");
       const user = await User.findById(id).cache({ key: "User" });
       done(null, user);
+      
     } catch (err) {
       done(err, null);
     }
@@ -71,7 +72,7 @@ passport.use(
           );
 
           if (req.session){ req.session.token = token; console.log(req.session.token);}
-
+          
           req.userId = existingUser.id;
           return done(null, existingUser);
         }

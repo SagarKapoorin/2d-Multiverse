@@ -4,7 +4,7 @@ import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLogin } from "../state";
+import { setLogin,setAvatarId,setRole,setName } from "../state";
 import Google from "../components/Google"
 
 
@@ -80,7 +80,7 @@ const Form = () => {
     });
     const loggedIn = await response.json();
     onSubmitProps.resetForm();
-    console.log(loggedIn.token);
+    console.log(loggedIn);
     if (loggedIn) {
       dispatch(
         setLogin({
@@ -88,12 +88,28 @@ const Form = () => {
           token: loggedIn.token,
         })
       );
-      navigate("/home");
+      dispatch(
+        setAvatarId({
+          avatarId:loggedIn.avatarId || undefined,
+        })
+      )
+      dispatch(
+       setRole({
+        role:loggedIn.role,
+       })
+      )
+      dispatch(
+        setName({
+          name:loggedIn.name,
+        })
+      )
+      setTimeout(()=>navigate("/user"),1000);
+      
     }
   };
   const GoogleLogin=async()=>{
   window.location.href = 'http://localhost:3000/api/v1/auth/google';
- 
+  
   }
   const handleFormSubmit = async (
     values: RegisterValues | LoginValues,
