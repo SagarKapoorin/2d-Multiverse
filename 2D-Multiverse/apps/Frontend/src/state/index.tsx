@@ -7,6 +7,7 @@ export interface Space_{
 }
 export interface State_{
   name:string|null;
+  selectSpaceId:string;
   token: string | null;
   role: string | null;
   avatarId: string | undefined;
@@ -16,6 +17,7 @@ export interface State_{
 }
 const initialState: State_ = {
   name:null,
+  selectSpaceId:'',
   change:1,
   token: null,
   role: null,
@@ -31,6 +33,9 @@ export const authSlice = createSlice({
   reducers: {
     setChange:(state)=>{
       state.change+=1;
+    },
+    setSpaceId:(state,action)=>{
+      state.selectSpaceId=action.payload.spaceId;
     },
     setName:(state,action)=>{
       state.name=action.payload.name;
@@ -65,6 +70,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const {setLogin,setRole,setChange, setLogout,setAvatar,setAvatarId,setSpaces,setUpdateSpaces,setName} =
+export const {setSpaceId,setLogin,setRole,setChange, setLogout,setAvatar,setAvatarId,setSpaces,setUpdateSpaces,setName} =
   authSlice.actions;
 export default authSlice.reducer;

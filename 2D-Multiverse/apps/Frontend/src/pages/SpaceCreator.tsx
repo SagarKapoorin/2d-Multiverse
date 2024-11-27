@@ -9,7 +9,7 @@ const SpaceCreator: React.FC = () => {
   const BACKEND_URL = "http://localhost:3000";
   const userToken = useSelector((state: State_) => state.token);
   const [name, setName] = useState<string>("");
-  const [dimensions, setDimensions] = useState<string>("");
+  const [dimensions, setDimensions] = useState<string>("100x200");
   const [maps, setMaps] = useState<{ _id: string; name: string;width:number,height:number,thumbnail:string }[]>([
     {
       _id: '673b3bdc34db4302d2ed6541',
@@ -100,12 +100,6 @@ const SpaceCreator: React.FC = () => {
           placeholder="Enter space name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Enter dimensions (e.g., 100x200)"
-          value={dimensions}
-          onChange={(e) => setDimensions(e.target.value)}
         />
         <div>
           <h3>Select a Map</h3>

@@ -1,13 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import { useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 import './App.css';
 import Login from "./pages/Login";
-// import { State_ } from "./state";
+import { State_ } from "./state";
 // import User from "./pages/User";
 // import CreateSpace from "./components/CreateSpace";
 import SpaceManager from "./pages/SpaceManager";
+import Arena from "./pages/Arena";
+import MapManager from "./pages/MapManager";
+import ElementUpdater from "./pages/ElementUpdater";
 function App() {
-  // const isAuth = Boolean( useSelector((state:State_) => state.token));
+  const isAuth = Boolean( useSelector((state:State_) => state.token));
   return (
     <>
     <BrowserRouter>
@@ -15,13 +18,13 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route
               path="/user"
-              element={<SpaceManager/>  }
-            />
-            {/* <Route
-              path="/profile/:userId"
-              element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
+              element={<ElementUpdater/>  }
             />
             <Route
+              path="/Arena"
+              element={isAuth ?<Arena/>:<Login/>}
+            />
+            {/* <Route
               path="/Faq"
               element={isAuth ? <FAQ /> : <Navigate to="/" />}
             />

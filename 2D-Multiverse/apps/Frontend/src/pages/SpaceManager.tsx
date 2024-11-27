@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { State_, setSpaces, setUpdateSpaces } from "../state";
+import { State_, setSpaces, setUpdateSpaces,setSpaceId } from "../state";
 import axios from "axios";
 import SpaceCreator from "./SpaceCreator";
+import { useNavigate } from "react-router-dom";
 // import "./SpaceManager.css"; // Add a CSS file for styling
 
 const SpaceManager: React.FC = () => {
+  const navigate=useNavigate();
   const BACKEND_URL = "http://localhost:3000";
   const dispatch = useDispatch();
   const spaces = useSelector((state: State_) => state.spaces);
@@ -19,7 +21,10 @@ const change=useSelector((state:State_)=>state.change);
       fetchSpaces();
     }
   }, [token,change]);
-
+  const SpaceId=(id:string)=>{
+    dispatch(setSpaceId({spaceId:id}));
+    navigate("/Arena");
+  }
   const fetchSpaces = async () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/api/v1/space/all`, {
@@ -94,6 +99,7 @@ const change=useSelector((state:State_)=>state.change);
               <div className="space-details">
                 <p className="space-name">{space.name}</p>
                 <p className="space-dimensions">{space.dimensions}</p>
+                <button onClick={() => SpaceId(space.id)}>Select</button>
                 <button onClick={() => updateSpace(space.id)}>Update</button>
                 <button onClick={() => deleteSpace(space.id)}>Delete</button>
               </div>
