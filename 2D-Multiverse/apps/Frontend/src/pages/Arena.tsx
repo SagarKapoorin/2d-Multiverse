@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useState } from "react";
 import { State_ } from "../state";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 
 const BACKEND_URL = "http://localhost:3000/api/v1";
 
@@ -105,6 +106,7 @@ const Arena: React.FC = () => {
 
   return (
     <div>
+     <Navbar/>
       <h1>Arena Manager</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
 

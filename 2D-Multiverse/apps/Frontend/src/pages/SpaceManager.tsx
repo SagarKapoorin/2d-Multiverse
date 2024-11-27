@@ -4,6 +4,7 @@ import { State_, setSpaces, setUpdateSpaces,setSpaceId } from "../state";
 import axios from "axios";
 import SpaceCreator from "./SpaceCreator";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 // import "./SpaceManager.css"; // Add a CSS file for styling
 
 const SpaceManager: React.FC = () => {
@@ -82,6 +83,7 @@ const change=useSelector((state:State_)=>state.change);
 
   return (
     <div>
+        <Navbar/>
       <h1>Space Manager</h1>
 
     <SpaceCreator/>

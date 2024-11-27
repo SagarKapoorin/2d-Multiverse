@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { State_ } from "../state";
+import Navbar from "../components/Navbar";
 
 const BACKEND_URL = "http://localhost:3000/api/v1";
 
@@ -92,6 +93,7 @@ const MapManager: React.FC = () => {
 
   return (
     <div>
+        <Navbar/>
       <h1>Map Manager</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}

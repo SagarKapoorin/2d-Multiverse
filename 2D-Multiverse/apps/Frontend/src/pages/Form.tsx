@@ -103,7 +103,7 @@ const Form = () => {
           name:loggedIn.name,
         })
       )
-      setTimeout(()=>navigate("/user"),1000);
+      setTimeout(()=>navigate("/home"),1000);
       
     }
   };

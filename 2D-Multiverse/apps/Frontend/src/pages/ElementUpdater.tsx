@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { State_ } from "../state";
 import { useSelector } from "react-redux";
+import Navbar from "../components/Navbar";
 
 const BACKEND_URL = "http://localhost:3000/api/v1";
 
@@ -63,6 +64,7 @@ const token = useSelector((state: State_) => state.token);
 
   return (
     <div>
+        <Navbar/>
       <h1>Update Element Image</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
