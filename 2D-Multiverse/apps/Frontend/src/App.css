@@ -3,7 +3,7 @@ width: 100vw;
 height: 100vh;
 margin: 0px;
 padding: 0px;
-
+overflow: auto;
 }
 
 *{
@@ -14,7 +14,7 @@ padding: 0px;
   justify-content: center;
 width: 100vw;
 height: 110vh;
-/* overflow: hidden; */
+overflow: hidden;
 margin: 0px;
 padding: 0px;
 }
