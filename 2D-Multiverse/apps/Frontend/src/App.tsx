@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
 import { useSelector} from "react-redux";
 import './App.css';
-import Login from "./pages/Login";
+// import Login from "./pages/Login";
 import { State_ } from "./state";
 // import User from "./pages/User";
 // import CreateSpace from "./components/CreateSpace";
@@ -11,20 +11,21 @@ import MapManager from "./pages/MapManager";
 import ElementUpdater from "./pages/ElementUpdater";
 import DashBoard from "./pages/DashBoard";
 import User from "./pages/User";
+import Form from "./pages/Form";
 function App() {
   const isAuth = Boolean( useSelector((state:State_) => state.token));
   return (
     <>
     <BrowserRouter>
     <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Form />} />
             <Route
               path="/home"
               element={<DashBoard/>}
             />
              <Route
               path="/user"
-              element={isAuth?<User/>:<Navigate to="/"/>  }
+              element={<User/>  }
             />
             <Route
               path="/arena"

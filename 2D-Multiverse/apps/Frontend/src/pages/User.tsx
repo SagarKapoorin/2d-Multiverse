@@ -157,7 +157,7 @@ const User = () => {
           )}
           {ChangeImage && (
             <div className="UpdateChoices">
-              <div className="avatar">
+              <div className="avatar2">
                 {avatars.map((avatar, index) => (
                   <img
                     key={index}
