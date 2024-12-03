@@ -3,6 +3,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { State_ } from "../state";
 import Navbar from "../components/Navbar";
+import UserHeader from "./UserHeader";
+import AnimatedBackground from "../Animation/Animation";
 
 const BACKEND_URL = "http://localhost:3000/api/v1";
 
@@ -14,7 +16,7 @@ interface Element {
 }
 
 const MapManager: React.FC = () => {
-    const token=useSelector((state:State_)=>state.token);
+  const token = useSelector((state: State_) => state.token);
   const [mapName, setMapName] = useState<string>("");
   const [mapThumbnail, setMapThumbnail] = useState<string>("");
   const [mapDimensions, setMapDimensions] = useState<string>("100x100");
@@ -33,9 +35,7 @@ const MapManager: React.FC = () => {
   const fetchAvailableElements = async () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/elements`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
+        headers: { authorization: `Bearer ${token}` },
       });
       setAvailableElements(response.data.elements);
       setError("");
@@ -76,9 +76,7 @@ const MapManager: React.FC = () => {
           defaultElements,
         },
         {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
+          headers: { authorization: `Bearer ${token}` },
         }
       );
       setSuccess(`Map created successfully with ID: ${response.data.id}`);
@@ -92,81 +90,101 @@ const MapManager: React.FC = () => {
   };
 
   return (
-    <div>
-        <Navbar/>
-      <h1>Map Manager</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
+    <div className="min-h-screen bg-gray-50">
+      <AnimatedBackground></AnimatedBackground>
+      <UserHeader/>
+      <Navbar />
+      <div className="container--map">
+        <h1 className="title--map">Map Manager</h1>
+        
+        {error && <div className="alert-error--map">{error}</div>}
+        {success && <div className="alert-success--map">{success}</div>}
 
-      <div>
-        <h2>Create Map</h2>
-        <input
-          type="text"
-          placeholder="Map Name"
-          value={mapName}
-          onChange={(e) => setMapName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Map Thumbnail URL"
-          value={mapThumbnail}
-          onChange={(e) => setMapThumbnail(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Map Dimensions (e.g., 100x200)"
-          value={mapDimensions}
-          onChange={(e) => setMapDimensions(e.target.value)}
-        />
-      </div>
-
-      <div>
-        <h3>Add Default Elements</h3>
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-          {availableElements.map((element) => (
-            <div
-              key={element.id}
-              style={{
-                border: selectedElement === element.id ? "2px solid blue" : "1px solid gray",
-                padding: "10px",
-                textAlign: "center",
-                cursor: "pointer",
-              }}
-              onClick={() => setSelectedElement(element.id)}
-            >
-              <img
-                src={element.imageUrl}
-                alt={`Element ${element.id}`}
-                style={{ width: "100px", height: "100px", objectFit: "cover" }}
-              />
-              <p>{element.width}x{element.height}</p>
-              <p>ID: {element.id}</p>
-            </div>
-          ))}
+        <div className="section--map">
+          <h2 className="section-title--map">Create Map</h2>
+          <div className="input-group--map">
+            <input
+              type="text"
+              placeholder="Map Name"
+              value={mapName}
+              onChange={(e) => setMapName(e.target.value)}
+              className="input--map"
+            />
+            <input
+              type="text"
+              placeholder="Map Thumbnail URL"
+              value={mapThumbnail}
+              onChange={(e) => setMapThumbnail(e.target.value)}
+              className="input--map"
+            />
+            <input
+              type="text"
+              placeholder="Map Dimensions (e.g., 100x200)"
+              value={mapDimensions}
+              onChange={(e) => setMapDimensions(e.target.value)}
+              className="input--map"
+            />
+          </div>
         </div>
-        <input
-          type="number"
-          placeholder="X Coordinate"
-          value={xCoord}
-          onChange={(e) => setXCoord(e.target.value ? Number(e.target.value) : "")}
-        />
-        <input
-          type="number"
-          placeholder="Y Coordinate"
-          value={yCoord}
-          onChange={(e) => setYCoord(e.target.value ? Number(e.target.value) : "")}
-        />
-        <button onClick={addDefaultElement}>Add Default Element</button>
-        <ul>
-          {defaultElements.map((el, index) => (
-            <li key={index}>
-              {el.element} (x: {el.x}, y: {el.y})
-            </li>
-          ))}
-        </ul>
-      </div>
 
-      <button onClick={createMap}>Create Map</button>
+        <div className="section--map">
+          <h3 className="section-title--map">Add Default Elements</h3>
+          <div className="elements-grid--map">
+            {availableElements.map((element) => (
+              <div
+                key={element.id}
+                className={`element-card--map ${
+                  selectedElement === element.id ? "element-card-selected--map" : ""
+                }`}
+                onClick={() => setSelectedElement(element.id)}
+              >
+                <img
+                  src={element.imageUrl}
+                  alt={`Element ${element.id}`}
+                  className="element-image--map"
+                />
+                <div className="element-info--map">
+                  <p>{element.width}x{element.height}</p>
+        
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="coordinates-group--map">
+            <input
+              type="number"
+              placeholder="X Coordinate"
+              value={xCoord}
+              onChange={(e) => setXCoord(e.target.value ? Number(e.target.value) : "")}
+              className="coordinate-input--map"
+            />
+            <input
+              type="number"
+              placeholder="Y Coordinate"
+              value={yCoord}
+              onChange={(e) => setYCoord(e.target.value ? Number(e.target.value) : "")}
+              className="coordinate-input--map"
+            />
+          </div>
+
+          <button onClick={addDefaultElement} className="button-secondary--map">
+            Add Default Element
+          </button>
+
+          <ul className="elements-list--map">
+            {defaultElements.map((el, index) => (
+              <li key={index} className="element-list-item--map">
+                Element: {el.element} (x: {el.x}, y: {el.y})
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <button onClick={createMap} className="button--map w-full">
+          Create Map
+        </button>
+      </div>
     </div>
   );
 };

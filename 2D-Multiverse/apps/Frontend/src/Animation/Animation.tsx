@@ -4,6 +4,7 @@ import { useAnimationFrame } from './hooks/useAnimationFrame';
 import { createBalls, updateBall } from './utils/animation';
 import { setupCanvas, drawBall } from './utils/canvas';
 import { Ball } from './types/ball';
+import './Animation.css'
 
 const AnimatedBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);

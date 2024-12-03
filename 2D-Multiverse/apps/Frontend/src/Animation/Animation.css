@@ -1,6 +1,10 @@
 .my-container22 {
     min-height: 100vh;
     background-color: #ffffff;
+    z-index: 0;
+    position: absolute;
+    top:0px;
+    left: 0px;
   }
   .your-class {
     position: fixed;
