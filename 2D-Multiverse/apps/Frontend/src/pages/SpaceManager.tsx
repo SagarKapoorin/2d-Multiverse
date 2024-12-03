@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { State_, setSpaces, setUpdateSpaces,setSpaceId } from "../state";
+import { State_, setSpaces, setUpdateSpaces, setSpaceId } from "../state";
 import axios from "axios";
 import SpaceCreator from "./SpaceCreator";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-// import "./SpaceManager.css"; // Add a CSS file for styling
+import UserHeader from "./UserHeader";
+// import "./SpaceManager.css";
 
 const SpaceManager: React.FC = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const BACKEND_URL = "http://localhost:3000";
   const dispatch = useDispatch();
   const spaces = useSelector((state: State_) => state.spaces);
   const token = useSelector((state: State_) => state.token);
+  const change = useSelector((state: State_) => state.change);
 
   const [name, setName] = useState<string>("");
   const [dimensions, setDimensions] = useState<string>("");
-const change=useSelector((state:State_)=>state.change);
+
   useEffect(() => {
     if (token) {
       fetchSpaces();
     }
-  }, [token,change]);
-  const SpaceId=(id:string)=>{
-    dispatch(setSpaceId({spaceId:id}));
+  }, [token, change]);
+
+  const SpaceId = (id: string) => {
+    dispatch(setSpaceId({ spaceId: id }));
     navigate("/Arena");
-  }
+  };
+
   const fetchSpaces = async () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/api/v1/space/all`, {
@@ -34,15 +38,10 @@ const change=useSelector((state:State_)=>state.change);
         },
       });
       dispatch(setSpaces({ spaces: response.data.spaces }));
-      console.log(response.data.spaces)
     } catch (error) {
       console.error("Failed to fetch spaces:", error);
     }
   };
-
- 
-
-    
 
   const updateSpace = async (spaceId: string) => {
     if (!name || !dimensions) {
@@ -82,28 +81,46 @@ const change=useSelector((state:State_)=>state.change);
   };
 
   return (
-    <div>
-        <Navbar/>
-      <h1>Space Manager</h1>
+    <div className="space-manager--space1">
+      <UserHeader/>
+      <Navbar />
+      <h1 className="title--space1">Space Manager</h1>
 
-    <SpaceCreator/>
+      <SpaceCreator />
 
       <div>
-        <h2>Your Spaces</h2>
-        <div className="space-list">
+        <h2 className="title--space1">Your Spaces</h2>
+        <div className="space-list--space1">
           {spaces.map((space) => (
-            <div className="space-item" key={space.id}>
+            <div className="space-item--space1" key={space.id}>
               <img
-                src={space.thumbnail || "https://dummyimage.com/600x400/ffffff/ffffff"}
+                src={space.thumbnail || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80"}
                 alt={space.name}
-                className="space-thumbnail"
+                className="space-thumbnail--space1"
               />
-              <div className="space-details">
-                <p className="space-name">{space.name}</p>
-                <p className="space-dimensions">{space.dimensions}</p>
-                <button onClick={() => SpaceId(space.id)}>Select</button>
-                <button onClick={() => updateSpace(space.id)}>Update</button>
-                <button onClick={() => deleteSpace(space.id)}>Delete</button>
+              <div className="space-details--space1">
+                <p className="space-name--space1">{space.name}</p>
+                <p className="space-dimensions--space1">{space.dimensions}</p>
+                <div className="button-container--space1">
+                  <button 
+                    className="button--space1 button-select--space1"
+                    onClick={() => SpaceId(space.id)}
+                  >
+                    Select
+                  </button>
+                  <button 
+                    className="button--space1 button-update--space1"
+                    onClick={() => updateSpace(space.id)}
+                  >
+                    Update
+                  </button>
+                  <button 
+                    className="button--space1 button-delete--space1"
+                    onClick={() => deleteSpace(space.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           ))}

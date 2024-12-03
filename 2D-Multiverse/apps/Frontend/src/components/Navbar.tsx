@@ -38,6 +38,7 @@ const StyledWrapper = styled.div`
   .button-container {
   transform: rotate(90deg);
   transform-origin: center;
+  z-index:3;
     display: flex;
     background-color: rgba(245, 73, 144);
     height: 40px;

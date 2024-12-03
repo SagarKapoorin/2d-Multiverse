@@ -3,6 +3,8 @@ import axios from "axios";
 import { State_ } from "../state";
 import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
+import UserHeader from "./UserHeader";
+// import "../styles/ElementUpdater.css";
 
 const BACKEND_URL = "http://localhost:3000/api/v1";
 
@@ -12,7 +14,7 @@ interface Element {
 }
 
 const ElementUpdater: React.FC = () => {
-const token = useSelector((state: State_) => state.token);
+  const token = useSelector((state: State_) => state.token);
   const [elements, setElements] = useState<Element[]>([]);
   const [selectedElementId, setSelectedElementId] = useState<string>("");
   const [newImageUrl, setNewImageUrl] = useState<string>("");
@@ -55,7 +57,7 @@ const token = useSelector((state: State_) => state.token);
       );
       setSuccess(response.data.message);
       setError("");
-      fetchElements(); 
+      fetchElements();
       setNewImageUrl("");
     } catch (err) {
       setError("Failed to update the element image URL.");
@@ -63,49 +65,52 @@ const token = useSelector((state: State_) => state.token);
   };
 
   return (
-    <div>
-        <Navbar/>
-      <h1>Update Element Image</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
+    <div className="container--element1">
+      <UserHeader/>
+      <Navbar />
+      <h1 className="title--element1">Update Element Image</h1>
+      {error && <p className="error--element1">{error}</p>}
+      {success && <p className="success--element1">{success}</p>}
 
-      <div>
-        <h2>Available Elements</h2>
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+      <div className="elements-section--element1">
+        <h2 className="section-title--element1">Available Elements</h2>
+        <div className="elements-grid--element1">
           {elements.map((element) => (
             <div
               key={element.id}
-              style={{
-                border: selectedElementId === element.id ? "2px solid blue" : "1px solid gray",
-                padding: "10px",
-                textAlign: "center",
-                cursor: "pointer",
-              }}
+              className={`element-card--element1 ${
+                selectedElementId === element.id ? "selected" : ""
+              }`}
               onClick={() => setSelectedElementId(element.id)}
             >
               <img
                 src={element.imageUrl}
                 alt={`Element ${element.id}`}
-                style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                className="element-image--element1"
               />
-              <p>ID: {element.id}</p>
+              {/* <p className="element-id--element1">ID: {element.id}</p> */}
             </div>
           ))}
         </div>
       </div>
 
-      <div>
-        <h3>Update Selected Element</h3>
+      <div className="update-section--element1">
+        <h3 className="update-title--element1">Update Selected Element</h3>
         {selectedElementId ? (
           <>
-            <p>Selected Element ID: {selectedElementId}</p>
+            <p className="selected-id--element1">
+              Selected Element ID: {selectedElementId}
+            </p>
             <input
               type="text"
+              className="input--element1"
               placeholder="Enter new image URL"
               value={newImageUrl}
               onChange={(e) => setNewImageUrl(e.target.value)}
             />
-            <button onClick={updateElementImage}>Update Image URL</button>
+            <button className="button--element1" onClick={updateElementImage}>
+              Update Image URL
+            </button>
           </>
         ) : (
           <p>Please select an element to update.</p>

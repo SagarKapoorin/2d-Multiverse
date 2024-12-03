@@ -22,20 +22,19 @@ export const setupCanvas = (
     
     // Enhanced gradient effect with stronger colors
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-    gradient.addColorStop(0, 'rgba(225, 79, 91, 1)'); // Full opacity center
-    gradient.addColorStop(0.4, 'rgba(225, 79, 91, 0.8)'); // Higher mid opacity
-    gradient.addColorStop(1, 'rgba(225, 79, 91, 0.4)'); // More visible edge
+    gradient.addColorStop(0, 'rgba(245, 73, 144,0.5)'); // Full opacity center
+    gradient.addColorStop(0.4, 'rgba(245, 73, 144,0.5)'); // Higher mid opacity
+    gradient.addColorStop(1, 'rgba(245, 73, 144,0.5)'); // More visible edge
     ctx.fillStyle = gradient;
     ctx.fill();
     
     // Enhanced glow effect
-    ctx.shadowColor = 'rgba(225, 79, 91, 0.5)';
-    ctx.shadowBlur = radius * 0.8;
+    ctx.shadowColor = 'rgba(245, 73, 144,0.5)';
+    ctx.shadowBlur = radius * 0.001;
     ctx.fill();
     
     ctx.closePath();
     
-    // Reset shadow for next draw
     ctx.shadowColor = 'transparent';
     ctx.shadowBlur = 0;
   };

@@ -6,10 +6,12 @@ interface AvatarProps {
 export function AvatarS({ imageUrl, alt = 'User avatar' }: AvatarProps) {
     imageUrl===undefined?"https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y":imageUrl;
   return (
+    <div className="Avatar--div">
     <img
       src={imageUrl}
       alt={alt}
       className="avatar"
     />
+    </div>
   );
 }

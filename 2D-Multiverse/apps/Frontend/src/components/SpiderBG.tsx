@@ -1,7 +1,13 @@
-import Spline from '@splinetool/react-spline';
+import { AnimatedBackground } from "../pages/AnimatedBackground";
 
-export default function SpiderBG() {
+
+
+const SpiderBG = () => {
   return (
-    <Spline scene="https://prod.spline.design/2-q4nMSLebCMqr7i/scene.splinecode" />
+    <div className="background--user">
+      <AnimatedBackground/>
+    </div>
   );
-}
+};
+
+export default SpiderBG;

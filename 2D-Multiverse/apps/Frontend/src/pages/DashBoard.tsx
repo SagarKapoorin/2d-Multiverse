@@ -5,8 +5,9 @@ import AnimatedBackground from '../Animation/Animation'
 const DashBoard = () => {
   return (
     <div>
+           <UserHeader/>
       <AnimatedBackground/>
-      <UserHeader/>
+ 
       <Navbar/>
     </div>
   )

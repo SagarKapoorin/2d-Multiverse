@@ -35,7 +35,6 @@ const AnimatedBackground: React.FC = () => {
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
 
-    // Improved trail effect with lower opacity
     ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
     ctx.fillRect(0, 0, width, height);
 

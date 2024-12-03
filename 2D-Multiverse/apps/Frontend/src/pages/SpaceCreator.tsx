@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setChange } from "../state";
 import { State_ } from "../state";
+// import "./SpaceCreator.css";
 
 const SpaceCreator: React.FC = () => {
-    const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const BACKEND_URL = "http://localhost:3000";
   const userToken = useSelector((state: State_) => state.token);
   const [name, setName] = useState<string>("");
   const [dimensions, setDimensions] = useState<string>("100x200");
-  const [maps, setMaps] = useState<{ _id: string; name: string;width:number,height:number,thumbnail:string }[]>([
+  const [maps, setMaps] = useState<{ _id: string; name: string; width: number; height: number; thumbnail: string }[]>([
     {
       _id: '673b3bdc34db4302d2ed6541',
       width: 100,
@@ -39,8 +40,7 @@ const SpaceCreator: React.FC = () => {
       name: 'Space',
       thumbnail: 'https://thumbnail.com/a.png'
     }
-  ]
-  );  
+  ]);
   const [selectedMap, setSelectedMap] = useState<string>("");
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const SpaceCreator: React.FC = () => {
         {
           name,
           dimensions,
-          mapId: selectedMap || undefined, // Pass undefined if no map is selected
+          mapId: selectedMap || undefined,
         },
         {
           headers: {
@@ -92,71 +92,49 @@ const SpaceCreator: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Create a Space</h2>
-      <div>
+    <div className="creator-container--space2">
+      <h2 className="creator-title--space2">Create a Space</h2>
+      <div className="input-container--space2">
         <input
           type="text"
           placeholder="Enter space name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          className="input-field--space2"
         />
-        <div>
-          <h3>Select a Map</h3>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
-            {/* Option for blank (no map) */}
-            <div
-              onClick={() => setSelectedMap("")}
-              style={{
-                cursor: "pointer",
-                border: selectedMap === "" ? "2px solid blue" : "1px solid gray",
-                padding: "1rem",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  backgroundColor: "#f0f0f0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                No Map
-              </div>
-              <span>Blank</span>
-            </div>
-            {/* Render map options */}
-            {maps.length>0 && maps.map((map) => (
-              <div
-                key={map._id}
-                onClick={() => setSelectedMap(map._id)}
-                style={{
-                    width: "80px",
-                    height: "80px",
-                  cursor: "pointer",
-                  border: selectedMap === map._id ? "2px solid blue" : "1px solid gray",
-                  textAlign: "center",
-                }}
-              >
-                <img
-                  src={map.thumbnail || "https://dummyimage.com/100x100/cccccc/ffffff"}
-                  alt={map.name}
-                  style={{
-                    width: "80px",
-                    height: "80px",
-                    objectFit: "cover",
-                    borderRadius: "8px",
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        <button onClick={createSpace}>Create Space</button>
       </div>
+
+      <div className="map-section--space2">
+        <h3 className="map-title--space2">Select a Map</h3>
+        <div className="map-grid--space2">
+          <div
+            onClick={() => setSelectedMap("")}
+            className="map-option--space2"
+          >
+            <div className={`map-blank--space2 ${selectedMap === "" ? "selected--space2" : ""}`}>
+              No Map
+            </div>
+          </div>
+
+          {maps.length > 0 && maps.map((map) => (
+            <div
+              key={map._id}
+              onClick={() => setSelectedMap(map._id)}
+              className="map-option--space2"
+            >
+              <img
+                src={map.thumbnail || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80"}
+                alt={map.name}
+                className={`map-image--space2 ${selectedMap === map._id ? "selected--space2" : ""}`}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <button onClick={createSpace} className="create-button--space2">
+        Create Space
+      </button>
     </div>
   );
 };
