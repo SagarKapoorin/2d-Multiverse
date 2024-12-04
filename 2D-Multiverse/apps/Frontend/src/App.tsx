@@ -12,6 +12,8 @@ import ElementUpdater from "./pages/ElementUpdater";
 import DashBoard from "./pages/DashBoard";
 import User from "./pages/User";
 import Form from "./pages/Form";
+import ElementCreator from "./pages/ElementCreator";
+import ElementsPage from "./pages/ElementPage";
 function App() {
   const isAuth = Boolean( useSelector((state:State_) => state.token));
   return (
@@ -40,8 +42,16 @@ function App() {
               element={isAuth ? <MapManager /> : <Navigate to="/" />}
             />
             <Route
-            path="/elements"
+            path="/element/update"
             element={isAuth?<ElementUpdater/>:<Navigate to="/"/>}
+            />
+            <Route
+            path="/element/create"
+            element={isAuth?<ElementCreator/>:<Navigate to="/"/>}
+            />
+             <Route
+            path="/elements"
+            element={isAuth?<ElementsPage/>:<Navigate to="/"/>}
             />
           </Routes>
 
