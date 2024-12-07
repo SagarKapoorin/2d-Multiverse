@@ -1,7 +1,7 @@
 import  { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { State_ } from '../state';
-import axios from 'axios';
+// import axios from 'axios';
 import io from 'socket.io-client';
 import { Socket } from 'socket.io-client';
 import Canvas from './Canvas';
