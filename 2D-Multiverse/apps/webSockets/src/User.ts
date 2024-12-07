@@ -5,10 +5,11 @@ import Space from "@repo/db/space";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
 import { v4 as uuid } from "uuid";
-//Aim-> to create a User Class contains user detail and message:joined or moved
 
 dotenv.config({ path: "../../.env" });
 const JWT_PASSWORD: string = process.env.JWT_SECRET || "no-value";
+
+const roomUsers = new Map<string, Map<string, User>>();
 
 export class User {
   public id: string;
@@ -28,14 +29,11 @@ export class User {
 
   initHandlers() {
     this.socket.on("message", async (data: any) => {
-      // console.log(data);
       const parsedData = data;
-      // console.log(parsedData);
+
       switch (parsedData.type) {
         case "join":
-          console.log("join received");
           const spaceId = parsedData.payload.spaceId;
-          console.log(spaceId);
           const token = parsedData.payload.token;
           const userId = (jwt.verify(token, JWT_PASSWORD) as JwtPayload).userId;
           if (!userId) {
@@ -44,12 +42,9 @@ export class User {
           }
 
           this.userId = userId;
-          const space = await Space.findOne({
-            _id: spaceId,
-          }).exec();
+          const space = await Space.findOne({ _id: spaceId }).exec();
 
           if (!space) {
-            console.log("not found");
             this.socket.disconnect();
             return;
           }
@@ -57,21 +52,31 @@ export class User {
           this.spaceId = spaceId;
 
           this.socket.join(spaceId);
-          //placing at random loacation.
+
           this.x = Math.floor(Math.random() * (space.width || 0));
           this.y = Math.floor(Math.random() * (space.height || 0));
+
+          if (!roomUsers.has(spaceId)) {
+            roomUsers.set(spaceId, new Map());
+          }
+          roomUsers.get(spaceId)!.set(userId, this);
+
+          const usersInRoom = Array.from(roomUsers.get(spaceId)!.values()).map(
+            (user) => ({
+              userId: user.userId,
+              x: user.x,
+              y: user.y,
+            })
+          );
 
           this.send({
             type: "space-joined",
             payload: {
-              spawn: {
-                x: this.x,
-                y: this.y,
-              },
-              users: io.sockets.adapter.rooms.get(this.spaceId!)?.size || 0,
+              spawn: { x: this.x, y: this.y },
+              users: usersInRoom,
+              userId:this.userId
             },
           });
-          //sending broadcast message that user joined to all
 
           this.socket.to(spaceId).emit(
             "message",
@@ -83,61 +88,56 @@ export class User {
           break;
 
         case "move":
-          console.log(parsedData.payload);
           const moveX = parsedData.payload.x;
           const moveY = parsedData.payload.y;
-          //allowed one step at a time
+
           const xDisplacement = Math.abs(this.x - moveX);
           const yDisplacement = Math.abs(this.y - moveY);
-          console.log(xDisplacement);
-          console.log(yDisplacement);
+
           if (
             (xDisplacement === 1 && yDisplacement === 0) ||
             (xDisplacement === 0 && yDisplacement === 1)
           ) {
             this.x = moveX;
             this.y = moveY;
-            //brodcast message for movement
-            console.log("working");
+
             this.socket.to(this.spaceId!).emit(
               "message",
               JSON.stringify({
                 type: "movement",
-                payload: {
-                  x: this.x,
-                  y: this.y,
-                },
+                payload: { userId: this.userId, x: this.x, y: this.y },
               })
             );
-            return;
+          } else {
+            this.send({
+              type: "movement-rejected",
+              payload: { x: this.x, y: this.y },
+            });
           }
-
-          this.send({
-            type: "movement-rejected",
-            payload: {
-              x: this.x,
-              y: this.y,
-            },
-          });
           break;
       }
     });
   }
 
   destroy() {
-    //user left
-    console.log("destroyed");
-    this.socket.to(this.spaceId!).emit(
-      "message",
-      JSON.stringify({
-        type: "user-left",
-        payload: {
-          userId: this.userId,
-        },
-      })
-    );
+    if (this.spaceId && this.userId) {
+      const room = roomUsers.get(this.spaceId);
+      if (room) {
+        room.delete(this.userId);
+
+        this.socket.to(this.spaceId).emit(
+          "message",
+          JSON.stringify({
+            type: "user-left",
+            payload: { userId: this.userId },
+          })
+        );
+      }
+    }
+
     this.socket.leave(this.spaceId!);
   }
+
   send(payload: OutgoingMessage) {
     this.socket.emit("message", JSON.stringify(payload));
   }
