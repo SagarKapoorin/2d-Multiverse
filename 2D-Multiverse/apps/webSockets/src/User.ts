@@ -53,8 +53,8 @@ export class User {
 
           this.socket.join(spaceId);
 
-          this.x = Math.floor(Math.random() * (space.width || 0));
-          this.y = Math.floor(Math.random() * (space.height || 0));
+          this.x = Math.floor(Math.random() * 39) + 1;
+          this.y = Math.floor(Math.random() * 39) + 1;
 
           if (!roomUsers.has(spaceId)) {
             roomUsers.set(spaceId, new Map());
@@ -93,14 +93,14 @@ export class User {
 
           const xDisplacement = Math.abs(this.x - moveX);
           const yDisplacement = Math.abs(this.y - moveY);
-
+          console.log(this.x+" "+this.y);
           if (
-            (xDisplacement === 1 && yDisplacement === 0) ||
-            (xDisplacement === 0 && yDisplacement === 1)
+           ( (xDisplacement === 1 && yDisplacement === 0) ||
+            (xDisplacement === 0 && yDisplacement === 1))&&(moveX>=0 &&moveX<=40 && moveY>=0 && moveY<=40)
           ) {
             this.x = moveX;
             this.y = moveY;
-
+            console.log(this.x+" "+this.y);
             this.socket.to(this.spaceId!).emit(
               "message",
               JSON.stringify({

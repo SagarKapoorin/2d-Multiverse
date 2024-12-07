@@ -3,6 +3,7 @@ import { UserCircle2, PlusCircle, X } from "lucide-react";
 import { setAvatarId, setLogin, setName, setRole, State_ } from "../state/index";
 import { useSelector,useDispatch } from "react-redux";
 import SpiderBG from "../components/SpiderBG";
+import Navbar from "../components/Navbar";
 
 interface Avatar {
   id: string | null;
@@ -108,6 +109,7 @@ const User = () => {
 
   return (
     <div className="profile--user">
+      <Navbar/>
       <SpiderBG />
       
       <div className="profile__container--user">

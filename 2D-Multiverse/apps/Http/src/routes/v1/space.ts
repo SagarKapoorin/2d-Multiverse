@@ -289,6 +289,7 @@ spaceRouter.get("/:spaceId", async (req, res) => {
   }
   console.log(space.width);
   res.json({
+    imageUrl:`${space.thumbnail}`,
     dimensions: `${space.width}x${space.height}`,
     elements: space.elements.map((e) => ({
       id: e.id,

@@ -14,6 +14,7 @@ import User from "./pages/User";
 import Form from "./pages/Form";
 import ElementCreator from "./pages/ElementCreator";
 import ElementsPage from "./pages/ElementPage";
+import WebSockets from "./pages/WebSocket";
 function App() {
   const isAuth = Boolean( useSelector((state:State_) => state.token));
   return (
@@ -23,7 +24,7 @@ function App() {
             <Route path="/" element={<Form />} />
             <Route
               path="/home"
-              element={<DashBoard/>}
+              element={<WebSockets/>}
             />
              <Route
               path="/user"
