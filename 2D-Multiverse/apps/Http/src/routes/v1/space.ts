@@ -169,6 +169,24 @@ spaceRouter.get("/all", async (req, res) => {
     res.status(400).json({ message: "Internal Server Error" });
   }
 });
+spaceRouter.get("/every", async (req, res) => {
+  try {
+    const spaces = await Space.find({
+    }).cache({
+      key: "Space",
+    });
+    res.json({
+      spaces: spaces.map((s) => ({
+        id: s.id,
+        name: s.name,
+        thumbnail: s.thumbnail,
+        dimensions: `${s.width}x${s.height}`,
+      })),
+    });
+  } catch (err) {
+    res.status(400).json({ message: "Internal Server Error" });
+  }
+});
 function isValidObjectId(param: string | mongoose.Types.ObjectId): boolean {
   return mongoose.Types.ObjectId.isValid(param);
 }

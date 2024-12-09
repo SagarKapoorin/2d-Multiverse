@@ -5,6 +5,8 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import Animated2 from "../components/Animated2";
 import UserHeader from "./UserHeader";
+import { showErrorToast, showSuccessToast } from "../components/Message";
+// import { ToastContainer } from "../components/MessageContainer";
 // import "./styles/arena.css";
 
 const BACKEND_URL = "http://localhost:3000/api/v1";
@@ -26,7 +28,7 @@ const Arena: React.FC = () => {
   const [xCoord, setXCoord] = useState<number | "">("");
   const [yCoord, setYCoord] = useState<number | "">("");
   const [dimensions, setDimensions] = useState<string>("");
-  const [error, setError] = useState<string>("");
+
 
   useLayoutEffect(() => {
     fetchAvailableElements();
@@ -42,9 +44,9 @@ const Arena: React.FC = () => {
       });
       setElements(response.data.elements);
       setDimensions(response.data.dimensions);
-      setError("");
+
     } catch (err) {
-      setError("Failed to fetch space details. Please check the Space ID.");
+      showErrorToast({message:"Failed to fetch space details. Please check the Space ID."});
     }
   };
 
@@ -57,7 +59,7 @@ const Arena: React.FC = () => {
       });
       setAvailableElements(response.data.elements);
     } catch (err) {
-      setError("Failed to fetch available elements.");
+      showErrorToast({message:"Failed to fetch available elements."});
     }
   };
 
@@ -70,14 +72,15 @@ const Arena: React.FC = () => {
         },
       });
       fetchSpaceDetails(spaceId);
+      showSuccessToast({message:"Element deleted Successfully"});
     } catch (err) {
-      setError("Failed to delete element.");
+      showErrorToast({message:"Failed to delete element."});
     }
   };
 
   const addElement = async () => {
     if (!selectedElement || xCoord === "" || yCoord === "") {
-      setError("Please fill in all fields before adding an element.");
+      showErrorToast({message:"Please fill in all fields before adding an element."});
       return;
     }
     try {
@@ -99,8 +102,9 @@ const Arena: React.FC = () => {
       setXCoord("");
       setYCoord("");
       setSelectedElement("");
+      showSuccessToast({message:"Success"});
     } catch (err) {
-      setError("Failed to add element. Ensure the coordinates are within dimensions.");
+      showErrorToast({message:"Failed to add element. Ensure the coordinates are within dimensions."});
     }
   };
 
@@ -111,7 +115,6 @@ const Arena: React.FC = () => {
       <Animated2/>
       <div className="container--arena2">
         <h1 className="title--arena2">Arena Manager</h1>
-        {error && <p className="error--arena2">{error}</p>}
 
         {dimensions && (
           <div className="space-details--arena2">

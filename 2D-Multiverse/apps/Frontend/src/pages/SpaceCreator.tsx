@@ -5,6 +5,7 @@ import { setChange } from "../state";
 import { State_ } from "../state";
 // import "./SpaceCreator.css";
 
+import { showErrorToast, showSuccessToast } from "../components/Message";
 const SpaceCreator: React.FC = () => {
   const dispatch = useDispatch();
   const BACKEND_URL = "http://localhost:3000";
@@ -56,14 +57,16 @@ const SpaceCreator: React.FC = () => {
       });
       console.log(response.data);
       setMaps(response.data.elements);
+      // showSuccessToast({message:"Success"});
     } catch (error) {
+      showErrorToast({message:`Error:${error}`});
       console.error("Failed to fetch maps:", error);
     }
   };
 
   const createSpace = async () => {
     if (!name || !dimensions) {
-      alert("Please enter a name and dimensions for the space.");
+      showErrorToast({message:"Please enter a name for the space."});
       return;
     }
 
@@ -81,12 +84,13 @@ const SpaceCreator: React.FC = () => {
           },
         }
       );
-      alert(`Space created with ID: ${response.data.spaceId}`);
+      showSuccessToast({message:`Space created`});
       setName("");
       setDimensions("");
       setSelectedMap("");
       dispatch(setChange());
     } catch (error) {
+      showErrorToast({message:`Failed to Create Space:${error}`});
       console.error("Failed to create space:", error);
     }
   };
@@ -135,6 +139,7 @@ const SpaceCreator: React.FC = () => {
       <button onClick={createSpace} className="create-button--space2">
         Create Space
       </button>
+
     </div>
   );
 };

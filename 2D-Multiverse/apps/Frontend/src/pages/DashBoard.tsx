@@ -6,8 +6,10 @@ import { setSpaces, setSpaceId } from '../state';
 import { State_ } from '../state';
 import Navbar from '../components/Navbar';
 import UserHeader from './UserHeader';
-import AnimatedBackground from '../Animation/Animation';
+
 import Animated2 from '../components/Animated2';
+import { showErrorToast } from '../components/Message';
+// import { ToastContainer } from '../components/MessageContainer';
 // import './Dashboard.css';
 
 const DashBoard = () => {
@@ -19,7 +21,7 @@ const DashBoard = () => {
 
   const fetchSpaces = async () => {
     try {
-      const response = await axios.get(`${BACKEND_URL}/api/v1/space/all`, {
+      const response = await axios.get(`${BACKEND_URL}/api/v1/space/every`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -27,6 +29,7 @@ const DashBoard = () => {
       dispatch(setSpaces({ spaces: response.data.spaces }));
     } catch (error) {
       console.error("Failed to fetch spaces:", error);
+      showErrorToast({message:"Error:Failed to fetch spaces"});
     }
   };
 
@@ -73,6 +76,7 @@ const DashBoard = () => {
         ))}
       </div>
       <Navbar />
+
     </div>
   );
 };

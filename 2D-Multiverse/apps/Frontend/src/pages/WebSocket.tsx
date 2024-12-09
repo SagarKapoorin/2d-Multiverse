@@ -1,6 +1,7 @@
 import  { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { State_ } from '../state';
+
 // import axios from 'axios';
 import io from 'socket.io-client';
 import { Socket } from 'socket.io-client';
@@ -8,6 +9,7 @@ import Canvas from './Canvas';
 import { AnimatedBackground } from './AnimatedBackground';
 import Navbar from '../components/Navbar';
 import UserHeader from './UserHeader';
+import { showErrorToast, showSuccessToast } from '../components/Message';
 // import '../../styles/websockets.css';
 
 const WebSockets = () => {
@@ -43,6 +45,7 @@ const WebSockets = () => {
             userMap.set(user.userId, user);
           });
           setUsers(userMap);
+          showSuccessToast({message:"Space-Joined Successfully"});
           break;
 
         case 'user-joined':
@@ -55,6 +58,7 @@ const WebSockets = () => {
             });
             return newUsers;
           });
+          showSuccessToast({message:"A new User Joined Space"});
           break;
 
         case 'movement':
@@ -76,6 +80,7 @@ const WebSockets = () => {
             x: payload.x,
             y: payload.y,
           }));
+          showErrorToast({message:"Movement Rejected"});
           break;
 
         case 'user-left':
@@ -84,10 +89,11 @@ const WebSockets = () => {
             newUsers.delete(payload.userId);
             return newUsers;
           });
+          showSuccessToast({message:"A User Left the Space"});
           break;
 
         default:
-          console.warn(`Unhandled message type: ${type}`);
+          showErrorToast({message:`Unhandled message type: ${type}`});
       }
     });
     return () => {
@@ -158,6 +164,7 @@ const WebSockets = () => {
       <p className="instructions--websocket">
         Use buttons to move your avatar
       </p>
+
     </div>
   );
 };

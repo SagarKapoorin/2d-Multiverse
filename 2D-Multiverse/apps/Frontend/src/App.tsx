@@ -15,6 +15,7 @@ import Form from "./pages/Form";
 import ElementCreator from "./pages/ElementCreator";
 import ElementsPage from "./pages/ElementPage";
 import WebSockets from "./pages/WebSocket";
+import { ToastContainer } from "./components/MessageContainer";
 function App() {
   const isAuth = Boolean( useSelector((state:State_) => state.token));
   return (
@@ -61,7 +62,7 @@ function App() {
           </Routes>
 
     </BrowserRouter>
-     
+     <ToastContainer/>
     </>
   )
 }

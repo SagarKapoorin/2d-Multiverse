@@ -6,6 +6,8 @@ import SpaceCreator from "./SpaceCreator";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import UserHeader from "./UserHeader";
+import { showErrorToast, showSuccessToast } from "../components/Message";
+
 // import "./SpaceManager.css";
 
 const SpaceManager: React.FC = () => {
@@ -38,7 +40,9 @@ const SpaceManager: React.FC = () => {
         },
       });
       dispatch(setSpaces({ spaces: response.data.spaces }));
+      // showSuccessToast({message:"Success"});
     } catch (error) {
+      showErrorToast({message:`Error:${error}`});
       console.error("Failed to fetch spaces:", error);
     }
   };
@@ -53,7 +57,9 @@ const SpaceManager: React.FC = () => {
         },
       });
       dispatch(setSpaces({ spaces: spaces.filter((space) => space.id !== spaceId) }));
+      showSuccessToast({message:"Success"});
     } catch (error) {
+      showErrorToast({message:`Error:${error}`});
       console.error("Failed to delete space:", error);
     }
   };
@@ -99,6 +105,7 @@ const SpaceManager: React.FC = () => {
           ))}
         </div>
       </div>
+
     </div>
   );
 };

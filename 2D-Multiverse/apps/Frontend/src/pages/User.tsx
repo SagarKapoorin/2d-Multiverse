@@ -1,9 +1,11 @@
 import  { useLayoutEffect, useState, useEffect } from "react";
 import { UserCircle2, PlusCircle, X } from "lucide-react";
+
 import { setAvatarId, setLogin, setName, setRole, State_ } from "../state/index";
 import { useSelector,useDispatch } from "react-redux";
 import SpiderBG from "../components/SpiderBG";
 import Navbar from "../components/Navbar";
+import { showErrorToast, showSuccessToast } from "../components/Message";
 
 interface Avatar {
   id: string | null;
@@ -40,7 +42,9 @@ const User = () => {
         dispatch(setRole({ role: data.role }));
         dispatch(setName({ name: data.name }));
         dispatch(setAvatarId({ avatarId: data.avatar.imageUrl }));
+        // showSuccessToast({message:"Success"});
       } catch (error) {
+        showErrorToast({message:`Error:${error}`});
         console.error("Error fetching user data:", error);
       }
     };
@@ -52,7 +56,9 @@ const User = () => {
         });
         const data = await response.json();
         setAvatars(data.avatars);
+        // showSuccessToast({message:"Success"});
       } catch (error) {
+        showErrorToast({message:`Error:${error}`});
         console.error("Error fetching avatars:", error);
       }
     };
@@ -87,8 +93,10 @@ const User = () => {
         setPlus(false);
         setimg(null);
         setnamed("");
+        showSuccessToast({message:"Success"});
       }
     } catch (err) {
+      showErrorToast({message:`Error:${err}`});
       console.error("Error adding avatar:", err);
     }
   };
@@ -102,7 +110,9 @@ const User = () => {
         body: JSON.stringify({ avatarId: updateImage }),
       });
       setImage(false);
+      showSuccessToast({message:"Success"});
     } catch (error) {
+      showErrorToast({message:`Error:${error}`});
       console.error("Error updating avatar:", error);
     }
   };
@@ -206,6 +216,7 @@ const User = () => {
           )}
         </div>
       </div>
+
     </div>
   );
 };

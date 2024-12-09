@@ -5,6 +5,8 @@ import { State_ } from '../state';
 import AnimatedBackground from '../Animation/Animation';
 import Navbar from '../components/Navbar';
 import UserHeader from './UserHeader';
+import { showErrorToast, showSuccessToast } from '../components/Message';
+import { ToastContainer } from '../components/MessageContainer';
 
 const BACKEND_URL = "http://localhost:3000/";
 
@@ -38,10 +40,10 @@ const ElementCreator = () => {
       );
 
       console.log('Element created successfully:', element1Response.data);
-      alert('Element created successfully!');
+      showSuccessToast({message:'Element created successfully!'});
     } catch (error) {
       console.error('Error creating element:', error);
-      alert('Failed to create element. Please try again.');
+      showErrorToast({message:'Failed to create element. Please try again.'});
     }
   };
 
@@ -134,6 +136,7 @@ const ElementCreator = () => {
           </button>
         </form>
       </div>
+      <ToastContainer/>
     </div>
   );
 };

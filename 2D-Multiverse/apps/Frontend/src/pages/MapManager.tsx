@@ -5,6 +5,7 @@ import { State_ } from "../state";
 import Navbar from "../components/Navbar";
 import UserHeader from "./UserHeader";
 import AnimatedBackground from "../Animation/Animation";
+import { showErrorToast, showSuccessToast } from "../components/Message";
 
 const BACKEND_URL = "http://localhost:3000/api/v1";
 
@@ -25,8 +26,7 @@ const MapManager: React.FC = () => {
   const [selectedElement, setSelectedElement] = useState<string>("");
   const [xCoord, setXCoord] = useState<number | "">("");
   const [yCoord, setYCoord] = useState<number | "">("");
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
+
 
   useEffect(() => {
     fetchAvailableElements();
@@ -38,15 +38,16 @@ const MapManager: React.FC = () => {
         headers: { authorization: `Bearer ${token}` },
       });
       setAvailableElements(response.data.elements);
-      setError("");
+      // setError("");
     } catch (err) {
-      setError("Failed to fetch available elements.");
+      showErrorToast({message:`Error:${err}`});
+     
     }
   };
 
   const addDefaultElement = () => {
     if (!selectedElement || xCoord === "" || yCoord === "") {
-      setError("Please fill in all fields before adding an element.");
+    showErrorToast({message:"Please fill in all fields before adding an element."});
       return;
     }
     const newElement = {
@@ -58,12 +59,12 @@ const MapManager: React.FC = () => {
     setXCoord("");
     setYCoord("");
     setSelectedElement("");
-    setError("");
+    // setError("");
   };
 
   const createMap = async () => {
     if (!mapName || !mapThumbnail || !mapDimensions) {
-      setError("Please provide all map details.");
+      showErrorToast({message:"Please provide all map details."});
       return;
     }
     try {
@@ -79,13 +80,14 @@ const MapManager: React.FC = () => {
           headers: { authorization: `Bearer ${token}` },
         }
       );
-      setSuccess(`Map created successfully with ID: ${response.data.id}`);
+      showSuccessToast({message:`Map created successfully`});
       setDefaultElements([]);
       setMapName("");
       setMapThumbnail("");
       setMapDimensions("100x100");
     } catch (err) {
-      setError("Failed to create map. Please check your inputs.");
+      // showErrorToast({message:`Error:${error}`});
+      showErrorToast({message:"Failed to create map. Please check your inputs."});
     }
   };
 
@@ -96,9 +98,6 @@ const MapManager: React.FC = () => {
       <Navbar />
       <div className="container--map">
         <h1 className="title--map">Map Manager</h1>
-        
-        {error && <div className="alert-error--map">{error}</div>}
-        {success && <div className="alert-success--map">{success}</div>}
 
         <div className="section--map">
           <h2 className="section-title--map">Create Map</h2>

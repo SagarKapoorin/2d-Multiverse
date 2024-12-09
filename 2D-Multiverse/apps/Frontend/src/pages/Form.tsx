@@ -8,6 +8,8 @@ import { User, Lock, UserCircle } from 'lucide-react';
 import './LoginForm.css'
 import './login.css'
 import { AnimatedBackground } from "./AnimatedBackground";
+import { showErrorToast, showSuccessToast } from "../components/Message";
+
 
 interface RegisterValues {
   username: string;
@@ -63,6 +65,11 @@ const Form = () => {
       }),
     });
     const savedUser = await response.json();
+    if(savedUser){
+      showSuccessToast({message:"Successfully Created Profile"});
+    }else{
+      showErrorToast({message:`Error in Creating Profile`});
+    }
     onSubmitProps.resetForm();
 
     if (savedUser) {
@@ -88,7 +95,10 @@ const Form = () => {
       dispatch(setAvatarId({ avatarId: loggedIn.avatarId || undefined }));
       dispatch(setRole({ role: loggedIn.role }));
       dispatch(setName({ name: loggedIn.name }));
+      showSuccessToast({message:"Successfully Loggedin"});
       setTimeout(() => navigate("/home"), 1000);
+    }else{
+      showErrorToast({message:"Loggedin Failed"})
     }
   };
 
@@ -232,6 +242,7 @@ const Form = () => {
         )}
       </Formik>
     </div>
+  
     </div>
   );
 };

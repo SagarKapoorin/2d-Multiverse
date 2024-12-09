@@ -4,6 +4,8 @@ import { State_ } from "../state";
 import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 import UserHeader from "./UserHeader";
+import { showErrorToast, showSuccessToast } from "../components/Message";
+// import { ToastContainer } from "../components/MessageContainer";
 // import "../styles/ElementUpdater.css";
 
 const BACKEND_URL = "http://localhost:3000/api/v1";
@@ -18,8 +20,6 @@ const ElementUpdater: React.FC = () => {
   const [elements, setElements] = useState<Element[]>([]);
   const [selectedElementId, setSelectedElementId] = useState<string>("");
   const [newImageUrl, setNewImageUrl] = useState<string>("");
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
 
   useEffect(() => {
     fetchElements();
@@ -33,15 +33,14 @@ const ElementUpdater: React.FC = () => {
         },
       });
       setElements(response.data.elements);
-      setError("");
     } catch (err) {
-      setError("Failed to fetch elements.");
+      showErrorToast({message:"Failed to fetch elements."});
     }
   };
 
   const updateElementImage = async () => {
     if (!selectedElementId || !newImageUrl) {
-      setError("Please select an element and provide a new image URL.");
+      showErrorToast({message:"Please select an element and provide a new image URL."});
       return;
     }
 
@@ -55,12 +54,11 @@ const ElementUpdater: React.FC = () => {
           },
         }
       );
-      setSuccess(response.data.message);
-      setError("");
+      showSuccessToast({message:"Success"});
       fetchElements();
       setNewImageUrl("");
     } catch (err) {
-      setError("Failed to update the element image URL.");
+      showErrorToast({message:"Failed to update the element image URL."});
     }
   };
 
@@ -69,8 +67,6 @@ const ElementUpdater: React.FC = () => {
       <UserHeader/>
       <Navbar />
       <h1 className="title--element1">Update Element Image</h1>
-      {error && <p className="error--element1">{error}</p>}
-      {success && <p className="success--element1">{success}</p>}
 
       <div className="elements-section--element1">
         <h2 className="section-title--element1">Available Elements</h2>
@@ -116,6 +112,7 @@ const ElementUpdater: React.FC = () => {
           <p>Please select an element to update.</p>
         )}
       </div>
+      
     </div>
   );
 };
