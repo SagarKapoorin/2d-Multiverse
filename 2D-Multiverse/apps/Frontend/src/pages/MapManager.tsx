@@ -80,6 +80,7 @@ const MapManager: React.FC = () => {
           headers: { authorization: `Bearer ${token}` },
         }
       );
+      console.log(response);
       showSuccessToast({message:`Map created successfully`});
       setDefaultElements([]);
       setMapName("");

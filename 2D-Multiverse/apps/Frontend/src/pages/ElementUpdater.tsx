@@ -55,6 +55,7 @@ const ElementUpdater: React.FC = () => {
         }
       );
       showSuccessToast({message:"Success"});
+      console.log(response);
       fetchElements();
       setNewImageUrl("");
     } catch (err) {

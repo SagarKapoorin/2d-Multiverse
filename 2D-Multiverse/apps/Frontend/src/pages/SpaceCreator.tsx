@@ -84,6 +84,7 @@ const SpaceCreator: React.FC = () => {
           },
         }
       );
+      console.log(response);
       showSuccessToast({message:`Space created`});
       setName("");
       setDimensions("");
