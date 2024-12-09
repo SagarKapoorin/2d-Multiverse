@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { State_ } from '../state';
 import AnimatedBackground from '../Animation/Animation';
+import Navbar from '../components/Navbar';
+import UserHeader from './UserHeader';
 
 const BACKEND_URL = "http://localhost:3000/";
 
@@ -53,6 +55,8 @@ const ElementCreator = () => {
 
   return (
     <div className="element-creator--element3">
+      <Navbar/>
+      <UserHeader/>
         <AnimatedBackground/>
       <div className="element-creator__container--element3">
         <h1 className="element-creator__title--element3">Create New Element</h1>

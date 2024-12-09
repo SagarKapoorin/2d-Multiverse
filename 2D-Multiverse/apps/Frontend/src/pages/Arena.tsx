@@ -3,6 +3,9 @@ import { State_ } from "../state";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import Animated2 from "../components/Animated2";
+import UserHeader from "./UserHeader";
+// import "./styles/arena.css";
 
 const BACKEND_URL = "http://localhost:3000/api/v1";
 
@@ -30,7 +33,6 @@ const Arena: React.FC = () => {
     fetchSpaceDetails(spaceId);
   }, []);
 
-
   const fetchSpaceDetails = async (id: string) => {
     try {
       const response = await axios.get(`${BACKEND_URL}/space/${id}`, {
@@ -39,7 +41,6 @@ const Arena: React.FC = () => {
         },
       });
       setElements(response.data.elements);
-      console.log(response.data.elements)
       setDimensions(response.data.dimensions);
       setError("");
     } catch (err) {
@@ -55,7 +56,6 @@ const Arena: React.FC = () => {
         },
       });
       setAvailableElements(response.data.elements);
-    //   console.log(response.data.elements);
     } catch (err) {
       setError("Failed to fetch available elements.");
     }
@@ -105,80 +105,86 @@ const Arena: React.FC = () => {
   };
 
   return (
-    <div>
-     <Navbar/>
-      <h1>Arena Manager</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <>
+      <Navbar />
+      <UserHeader/>
+      <Animated2/>
+      <div className="container--arena2">
+        <h1 className="title--arena2">Arena Manager</h1>
+        {error && <p className="error--arena2">{error}</p>}
 
-      {dimensions && (
-        <div>
-          <h2>Space Details</h2>
-          <p>Dimensions: {dimensions}</p>
-          <h3>Elements</h3>
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {elements.map((el) => (
-              <li
-                key={el.id}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "10px",
-                  gap: "10px",
-                }}
+        {dimensions && (
+          <div className="space-details--arena2">
+            <h2 className="section-title--arena2">Space Details</h2>
+            <p className="dimensions--arena2">Dimensions: {dimensions}</p>
+            <h3 className="section-title--arena2">Elements</h3>
+            <ul className="elements-list--arena2">
+              {elements.map((el) => (
+                <li key={el.id} className="element-item--arena2">
+                  <img
+                    src={el.element.imageUrl}
+                    alt={`Element ${el.id}`}
+                    className="element-image--arena2"
+                  />
+                  <span className="coordinates--arena2">
+                    (x: {el.x}, y: {el.y})
+                  </span>
+                  <button
+                    className="delete-button--arena2"
+                    onClick={() => deleteElement(el.id)}
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div className="add-element-section--arena2">
+          <h3 className="section-title--arena2">Add Element</h3>
+          <div className="elements-grid--arena2">
+            {availableElements.map((element) => (
+              <div
+                key={element.id}
+                className={`element-card--arena2 ${
+                  selectedElement === element.id ? "selected" : ""
+                }`}
+                onClick={() => setSelectedElement(element.id)}
               >
                 <img
-                  src={el.element.imageUrl}
-                  alt={`Element ${el.id}`}
-                  style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                  src={element.imageUrl}
+                  alt={`Element ${element.id}`}
+                  className="element-preview--arena2"
                 />
-                <span>
-                  (x: {el.x}, y: {el.y})
-                </span>
-                <button onClick={() => deleteElement(el.id)}>Delete</button>
-              </li>
+                <p className="dimensions-text--arena2">
+                  {element.width}x{element.height}
+                </p>
+              </div>
             ))}
-          </ul>
+          </div>
+          <div className="coordinates-input--arena2">
+            <input
+              type="number"
+              placeholder="X Coordinate"
+              value={xCoord}
+              onChange={(e) => setXCoord(e.target.value ? Number(e.target.value) : "")}
+              className="input-field--arena2"
+            />
+            <input
+              type="number"
+              placeholder="Y Coordinate"
+              value={yCoord}
+              onChange={(e) => setYCoord(e.target.value ? Number(e.target.value) : "")}
+              className="input-field--arena2"
+            />
+          </div>
+          <button className="add-button--arena2" onClick={addElement}>
+            Add Element
+          </button>
         </div>
-      )}
-
-      <div>
-        <h3>Add Element</h3>
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-          {availableElements.map((element) => (
-            <div
-              key={element.id}
-              style={{
-                border: selectedElement === element.id ? "2px solid blue" : "1px solid gray",
-                padding: "10px",
-                textAlign: "center",
-                cursor: "pointer",
-              }}
-              onClick={() => setSelectedElement(element.id)}
-            >
-              <img
-                src={element.imageUrl}
-                alt={`Element ${element.id}`}
-                style={{ width: "100px", height: "100px", objectFit: "cover" }}
-              />
-              <p>{element.width}x{element.height}</p>
-            </div>
-          ))}
-        </div>
-        <input
-          type="number"
-          placeholder="X Coordinate"
-          value={xCoord}
-          onChange={(e) => setXCoord(e.target.value ? Number(e.target.value) : "")}
-        />
-        <input
-          type="number"
-          placeholder="Y Coordinate"
-          value={yCoord}
-          onChange={(e) => setYCoord(e.target.value ? Number(e.target.value) : "")}
-        />
-        <button onClick={addElement}>Add Element</button>
       </div>
-    </div>
+    </>
   );
 };
 

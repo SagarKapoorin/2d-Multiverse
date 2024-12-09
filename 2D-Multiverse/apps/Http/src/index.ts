@@ -10,8 +10,17 @@ import { router } from "./routes/v1/Index";
 import cookieSession from "cookie-session";
 require("./middlewares/passport");
 import space from "@repo/db/space";
+import rateLimit from "express-rate-limit";
+import { mongoRateLimit } from "./middlewares/rateLimit";
 dotenv.config({ path: "../../.env" });
 const cookieKey: string = process.env.cookieKey || "empty";
+// mongo,express:60sec->100limit
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 100,
+  message: "Too many requests from this IP, please try again later.",
+});
+
 const app = express();
 app.use(passport.initialize());
 
@@ -34,6 +43,8 @@ app.use(cors({
   origin:"http://localhost:5173",
   credentials: true,
 }));
+app.use(mongoRateLimit);
+app.use(limiter);
 
 const PORT: string = process.env.PORT || "3000";
 // console.log(PORT);

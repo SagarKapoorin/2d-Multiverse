@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { State_, setSpaces, setUpdateSpaces, setSpaceId } from "../state";
+import { State_, setSpaces, setSpaceId } from "../state";
 import axios from "axios";
 import SpaceCreator from "./SpaceCreator";
 import { useNavigate } from "react-router-dom";
@@ -16,8 +16,8 @@ const SpaceManager: React.FC = () => {
   const token = useSelector((state: State_) => state.token);
   const change = useSelector((state: State_) => state.change);
 
-  const [name, setName] = useState<string>("");
-  const [dimensions, setDimensions] = useState<string>("");
+  // const [name, setName] = useState<string>("");
+  // const [dimensions, setDimensions] = useState<string>("");
 
   useEffect(() => {
     if (token) {
@@ -43,29 +43,7 @@ const SpaceManager: React.FC = () => {
     }
   };
 
-  const updateSpace = async (spaceId: string) => {
-    if (!name || !dimensions) {
-      alert("Please enter a name and dimensions for the space.");
-      return;
-    }
-    const updatedSpace = { id: spaceId, name, dimensions };
-    try {
-      const response = await axios.put(
-        `${BACKEND_URL}/api/v1/space/${spaceId}`,
-        updatedSpace,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      dispatch(setUpdateSpaces({ space: response.data }));
-      setName("");
-      setDimensions("");
-    } catch (error) {
-      console.error("Failed to update space:", error);
-    }
-  };
+  
 
   const deleteSpace = async (spaceId: string) => {
     try {
@@ -108,12 +86,7 @@ const SpaceManager: React.FC = () => {
                   >
                     Select
                   </button>
-                  <button 
-                    className="button--space1 button-update--space1"
-                    onClick={() => updateSpace(space.id)}
-                  >
-                    Update
-                  </button>
+                
                   <button 
                     className="button--space1 button-delete--space1"
                     onClick={() => deleteSpace(space.id)}

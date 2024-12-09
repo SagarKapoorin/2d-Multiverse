@@ -25,8 +25,8 @@ const Canvas: React.FC<CanvasProps> = ({ currentUser, users, imageUrl }) => {
   );
 
   const BACKEND_URL = 'http://localhost:3000';
-  const spaceId = '6746c8ea22fbd3e580bfa5cf';
-
+  const spaceId = useSelector((state:State_)=>state.selectSpaceId);;
+console.log(spaceId);
   const fetchSpace = async () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/api/v1/space/${spaceId}`, {

@@ -17,12 +17,11 @@ const WebSockets = () => {
   const [users, setUsers] = useState(new Map());
 
   let token = useSelector((state: State_) => state.token);
-  
+  const it_id=useSelector((state:State_)=>state.selectSpaceId);
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     token = token || urlParams.get('token') || '';
-    const spaceId = urlParams.get('spaceId') || '6745c62d935e9cfef019fa47';
-
+    const spaceId = it_id;
     const socket = io('http://localhost:5000', { transports: ['websocket'] });
     socketRef.current = socket;
 

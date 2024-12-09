@@ -24,11 +24,15 @@ function App() {
             <Route path="/" element={<Form />} />
             <Route
               path="/home"
-              element={<WebSockets/>}
+              element={isAuth ?<DashBoard/>:<Navigate to="/"/>}
+            />
+            <Route
+            path="/stadium"
+            element={isAuth ?<WebSockets/>:<Navigate to="/"/>}
             />
              <Route
               path="/user"
-              element={<User/>  }
+              element={isAuth ?<User/>:<Navigate to="/"/>  }
             />
             <Route
               path="/arena"
