@@ -13,7 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   return (
     <StyledWrapper>
-      <div className="dYfimb button-container" style={admin ? { width: '250px' } : { width: '140px' }}>
+      <div className="dYfimb button-container" style={admin ? { width: '250px' } : { width: '140px',left:'-46px' }}>
         <button className="button" onClick={() => navigate("/home")}>
           <HouseIcon />
         </button>

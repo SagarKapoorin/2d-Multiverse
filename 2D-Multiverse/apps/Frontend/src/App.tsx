@@ -25,7 +25,7 @@ function App() {
             <Route path="/" element={<Form />} />
             <Route
               path="/home"
-              element={isAuth ?<DashBoard/>:<Navigate to="/"/>}
+              element={<DashBoard/>}
             />
             <Route
             path="/stadium"

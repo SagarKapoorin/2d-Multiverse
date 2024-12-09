@@ -104,6 +104,7 @@ const Form = () => {
 
   const GoogleLogin = async () => {
     window.location.href = 'http://localhost:3000/api/v1/auth/google';
+    // dispatch(setLogin({ token: data.token }));
   };
 
   const handleFormSubmit = async (

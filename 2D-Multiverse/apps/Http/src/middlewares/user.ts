@@ -9,10 +9,13 @@ export const userMiddleware = (
   const header = req.headers["authorization"];
   let token2: string | undefined;
   if (req.session) {
+    console.log("token2");
+    console.log(token2);
     token2 = req.session.token;
   }
   const token = header?.split(" ")[1] || token2;
   if (!token) {
+    console.log("forbid");
     res.status(403).json({ message: "Unauthorized" });
     return;
   }
@@ -25,7 +28,7 @@ export const userMiddleware = (
       role: string;
       userId: string;
     };
-
+    
     req.userId = decoded.userId;
     next();
   } catch (e) {

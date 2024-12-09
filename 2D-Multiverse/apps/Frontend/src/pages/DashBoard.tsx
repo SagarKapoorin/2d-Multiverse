@@ -1,8 +1,8 @@
-import React from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { setSpaces, setSpaceId } from '../state';
+import { setSpaces, setSpaceId,setAvatarId,setName,setRole,setLogin } from '../state';
 import { State_ } from '../state';
 import Navbar from '../components/Navbar';
 import UserHeader from './UserHeader';
@@ -11,19 +11,22 @@ import Animated2 from '../components/Animated2';
 import { showErrorToast } from '../components/Message';
 // import { ToastContainer } from '../components/MessageContainer';
 // import './Dashboard.css';
+import { useEffect } from 'react';
 
 const DashBoard = () => {
   const navigate = useNavigate();
   const BACKEND_URL = "http://localhost:3000";
   const spaces = useSelector((state: State_) => state.spaces);
   const token = useSelector((state: State_) => state.token);
+  let token2="";
   const dispatch = useDispatch();
 
   const fetchSpaces = async () => {
+    console.log("Fetch-spaces");
     try {
       const response = await axios.get(`${BACKEND_URL}/api/v1/space/every`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token2}`,
         },
       });
       dispatch(setSpaces({ spaces: response.data.spaces }));
@@ -32,10 +35,29 @@ const DashBoard = () => {
       showErrorToast({message:"Error:Failed to fetch spaces"});
     }
   };
+  useEffect(()=>{
+    const getUser = async() => {
+    const response=await  axios.get(`${BACKEND_URL}/login/passed`, {
+      withCredentials:true,
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+      }
+      })
+      console.log(response);
+      const loggedIn=response.data;
+      token2=loggedIn.token;
+      dispatch(setLogin({ token: loggedIn.token }));
+      dispatch(setAvatarId({ avatarId: loggedIn.avatarId || undefined }));
+      dispatch(setRole({ role: loggedIn.role }));
+      dispatch(setName({ name: loggedIn.name }));
+      console.log(token2);
+      fetchSpaces();
+    }
+    getUser();
+  
+  },[])
 
-  React.useLayoutEffect(() => {
-    fetchSpaces();
-  }, []);
 
   const Select = (id: string) => {
     dispatch(setSpaceId({ spaceId: id }));
@@ -44,6 +66,7 @@ const DashBoard = () => {
 
   return (
     <div className="container--dashboard">
+  
       <UserHeader />
       <Animated2/>
       

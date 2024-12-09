@@ -1,7 +1,7 @@
 import  { useLayoutEffect, useState, useEffect } from "react";
 import { UserCircle2, PlusCircle, X } from "lucide-react";
 
-import { setAvatarId, setLogin, setName, setRole, State_ } from "../state/index";
+import { State_ } from "../state/index";
 import { useSelector,useDispatch } from "react-redux";
 import SpiderBG from "../components/SpiderBG";
 import Navbar from "../components/Navbar";
@@ -32,22 +32,7 @@ const User = () => {
   const [Image, setImages] = useState<string>(imageUrl || "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y");
 
   useLayoutEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/api/v1/space/google/user", {
-          credentials: "include",
-        });
-        const data = await response.json();
-        dispatch(setLogin({ token: data.token }));
-        dispatch(setRole({ role: data.role }));
-        dispatch(setName({ name: data.name }));
-        dispatch(setAvatarId({ avatarId: data.avatar.imageUrl }));
-        // showSuccessToast({message:"Success"});
-      } catch (error) {
-        showErrorToast({message:`Error:${error}`});
-        console.error("Error fetching user data:", error);
-      }
-    };
+  
 
     const fetchAvatars = async () => {
       try {
@@ -63,7 +48,7 @@ const User = () => {
       }
     };
 
-    fetchData();
+    // fetchData();
     fetchAvatars();
   }, [dispatch]);
 

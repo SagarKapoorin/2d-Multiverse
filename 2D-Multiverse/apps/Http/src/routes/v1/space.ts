@@ -15,6 +15,7 @@ import mongoose from "mongoose";
 export const spaceRouter = Router();
 import User from "@repo/db/user";
 import { IAvatar } from "@repo/db/avatar";
+import jwt from "jsonwebtoken";
 import MapElements, { IMapElements } from "@repo/db/mapElements";
 import { clearHash } from "../../middlewares/cache";
 spaceRouter.use(userMiddleware);
@@ -22,11 +23,29 @@ spaceRouter.use(userMiddleware);
 spaceRouter.get('/google/user', async(req, res) => {
   if (req.isAuthenticated()) {
 
-    const user = await User.findOne({
+    const user= await User.findOne({
       id: req.userId,
     }).populate<{ avatar: IAvatar }>("avatar")
+    if (!user) {
+      res.status(403).json({ message: "User not found" });
+      return;
+    }
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new Error("JWT_SECRET is not defined in environment variables");
+    }
     console.log(user);
-      res.json(user); 
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        role: user.role,
+      },
+      secret
+    );
+    if (req.session){req.session.token = token;console.log(req.session.token);}
+    console.log("-------")
+      res.json({ name:user.username,token, avatarId: user.avatar?.imageUrl ?? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
+      spaces:user.spaces,role:user.role }); 
   } else {
       res.status(401).json({ error: 'Not authenticated' });
   }

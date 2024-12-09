@@ -16,12 +16,10 @@ export const router = Router();
 
 router.get(
   "/auth/google/callback",
-  passport.authenticate("google"),
-  async(req, res) => {
-    // console.log("yes7");
-    setTimeout(()=> res.redirect("http://localhost:5173/user"),1000);
-   
-  }
+  passport.authenticate("google", {
+    successRedirect:"http://localhost:5173/home",
+
+  })
 );
 
 router.get(
