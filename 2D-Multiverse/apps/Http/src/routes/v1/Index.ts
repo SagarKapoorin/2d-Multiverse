@@ -101,7 +101,7 @@ router.post("/signin", async (req, res) => {
     );
     if (req.session){req.session.token = token;console.log(req.session.token);}
     console.log("-------")
-    console.log(user.avatar.imageUrl);
+    // console.log(user.avatar.imageUrl);
     res.json({ name:user.username,token, avatarId: user.avatar?.imageUrl ?? 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
       spaces:user.spaces,role:user.role });
   } catch (e) {

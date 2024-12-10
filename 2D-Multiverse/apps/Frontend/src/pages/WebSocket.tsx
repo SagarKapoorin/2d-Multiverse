@@ -19,6 +19,7 @@ const WebSockets = () => {
   const [users, setUsers] = useState(new Map());
 
   let token = useSelector((state: State_) => state.token);
+  console.log(token);
   const it_id=useSelector((state:State_)=>state.selectSpaceId);
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
