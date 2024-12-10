@@ -33,12 +33,14 @@ const SpaceManager: React.FC = () => {
   };
 
   const fetchSpaces = async () => {
+    console.log(token);
     try {
       const response = await axios.get(`${BACKEND_URL}/api/v1/space/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(response.data.spaces);
       dispatch(setSpaces({ spaces: response.data.spaces }));
       // showSuccessToast({message:"Success"});
     } catch (error) {

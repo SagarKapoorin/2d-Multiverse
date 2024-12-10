@@ -1,7 +1,7 @@
 import  { useLayoutEffect, useState, useEffect } from "react";
 import { UserCircle2, PlusCircle, X } from "lucide-react";
 
-import { State_ } from "../state/index";
+import { setAvatarId, State_ } from "../state/index";
 import { useSelector,useDispatch } from "react-redux";
 import SpiderBG from "../components/SpiderBG";
 import Navbar from "../components/Navbar";
@@ -95,6 +95,10 @@ const User = () => {
         body: JSON.stringify({ avatarId: updateImage }),
       });
       setImage(false);
+      console.log(updateImage);
+
+console.log(document.cookie);
+      dispatch(setAvatarId({avatarId:Image}));
       showSuccessToast({message:"Success"});
     } catch (error) {
       showErrorToast({message:`Error:${error}`});

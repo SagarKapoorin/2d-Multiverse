@@ -3,7 +3,7 @@ import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLogin, setAvatarId, setRole, setName } from "../state";
+import { setLogin, setAvatarId, setRole, setName, setType } from "../state";
 import { User, Lock, UserCircle } from 'lucide-react';
 import './LoginForm.css'
 import './login.css'
@@ -95,6 +95,7 @@ const Form = () => {
       dispatch(setAvatarId({ avatarId: loggedIn.avatarId || undefined }));
       dispatch(setRole({ role: loggedIn.role }));
       dispatch(setName({ name: loggedIn.name }));
+      dispatch(setType());
       showSuccessToast({message:"Successfully Loggedin"});
       setTimeout(() => navigate("/home"), 1000);
     }else{
@@ -103,8 +104,8 @@ const Form = () => {
   };
 
   const GoogleLogin = async () => {
+
     window.location.href = 'http://localhost:3000/api/v1/auth/google';
-    // dispatch(setLogin({ token: data.token }));
   };
 
   const handleFormSubmit = async (

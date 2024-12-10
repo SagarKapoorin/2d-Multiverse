@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 export function UserMenu() {
     const url=useSelector((state:State_)=>state.avatarId);
+    console.log(url);
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 

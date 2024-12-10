@@ -10,6 +10,7 @@ export interface State_{
   selectSpaceId:string;
   token: string | null;
   role: string | null;
+  type:string|null;
   avatarId: string | undefined;
   spaces: Space_[]; 
   avatars: any[];
@@ -18,6 +19,7 @@ export interface State_{
 const initialState: State_ = {
   name:null,
   selectSpaceId:'',
+  type:null,
   change:1,
   token: null,
   role: null,
@@ -31,6 +33,10 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setType:(state)=>{
+      state.type="Not-Google";
+      console.log(state.type);
+    },
     setChange:(state)=>{
       state.change+=1;
     },
@@ -70,6 +76,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const {setSpaceId,setLogin,setRole,setChange, setLogout,setAvatar,setAvatarId,setSpaces,setUpdateSpaces,setName} =
+export const {setSpaceId,setType,setLogin,setRole,setChange, setLogout,setAvatar,setAvatarId,setSpaces,setUpdateSpaces,setName} =
   authSlice.actions;
 export default authSlice.reducer;

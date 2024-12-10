@@ -18,15 +18,15 @@ const DashBoard = () => {
   const BACKEND_URL = "http://localhost:3000";
   const spaces = useSelector((state: State_) => state.spaces);
   const token = useSelector((state: State_) => state.token);
+  const type=useSelector((state:State_)=>state.type);
   let token2="";
   const dispatch = useDispatch();
-
   const fetchSpaces = async () => {
     console.log("Fetch-spaces");
     try {
       const response = await axios.get(`${BACKEND_URL}/api/v1/space/every`, {
         headers: {
-          Authorization: `Bearer ${token2}`,
+          Authorization: `Bearer ${token||token2}`,
         },
       });
       dispatch(setSpaces({ spaces: response.data.spaces }));
@@ -47,6 +47,7 @@ const DashBoard = () => {
       console.log(response);
       const loggedIn=response.data;
       token2=loggedIn.token;
+      console.log(token);
       dispatch(setLogin({ token: loggedIn.token }));
       dispatch(setAvatarId({ avatarId: loggedIn.avatarId || undefined }));
       dispatch(setRole({ role: loggedIn.role }));
@@ -54,7 +55,8 @@ const DashBoard = () => {
       console.log(token2);
       fetchSpaces();
     }
-    getUser();
+    console.log(type);
+    if(type==="Not-Google"){fetchSpaces()}else{getUser()};
   
   },[])
 

@@ -170,12 +170,15 @@ spaceRouter.delete("/element", async (req, res) => {
 });
 
 spaceRouter.get("/all", async (req, res) => {
+  console.log("/all---");
+  console.log(req.userId);
   try {
     const spaces = await Space.find({
       creator: req.userId!,
     }).cache({
       key: "Space",
     });
+    console.log(spaces);
     res.json({
       spaces: spaces.map((s) => ({
         id: s.id,
