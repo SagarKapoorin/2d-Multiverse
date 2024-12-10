@@ -73,13 +73,14 @@ app.get("/set-cookie", (req, res) => {
   res.send("Cookie has been set!");
 });
 app.use("/api/v1", router);
+
 app.get("/login/passed", async (req, res) => {
   // console.log("yessss");
-  
+
   if (req.session) {
-    const user= await User.findOne({
+    const user = await User.findOne({
       id: req.session.passport.user.id,
-    }).populate<{ avatar: IAvatar }>("avatar")
+    }).populate<{ avatar: IAvatar }>("avatar");
     if (!user) {
       res.status(403).json({ message: "User not found" });
       return;
@@ -87,7 +88,8 @@ app.get("/login/passed", async (req, res) => {
     res.json({
       name: req.session.passport.user.username,
       token: req.session.token,
-      avatarId:user.avatar?.imageUrl ?? 
+      avatarId:
+        user.avatar?.imageUrl ??
         "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
       spaces: req.session.passport.user.spaces,
       role: req.session.passport.user.role,

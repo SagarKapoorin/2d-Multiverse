@@ -5,6 +5,7 @@ import { MenuItem } from './MenuItem';
 import { useSelector } from 'react-redux';
 import { State_ } from '../state';
 import { useNavigate } from 'react-router-dom';
+import { showSuccessToast } from './Message';
 
 export function UserMenu() {
     const url=useSelector((state:State_)=>state.avatarId);
@@ -23,8 +24,9 @@ export function UserMenu() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleLogout = () => {
-    console.log('Logging out...');
+  const handleLogout = async() => {
+      navigate("/");
+      showSuccessToast({message:"Logout Success"});
   };
   const navigate=useNavigate();
   const handleUser=()=>{
