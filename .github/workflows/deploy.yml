@@ -49,8 +49,15 @@ jobs:
           npm run build
           cd ../webSockets
           npm run build
+          cd ../Frontend
+          npm run build
           cd ../../packages
           npm run build
+      - name: Start Frontend
+        run: |
+          cd 2D-Multiverse/apps/Frontend
+          nohup npm run build &
+          sleep 3
       - name: Start Websockets
         run: |
           cd 2D-Multiverse/apps/webSockets

@@ -8,6 +8,7 @@ import Navbar from "../components/Navbar";
 import UserHeader from "./UserHeader";
 import { showErrorToast, showSuccessToast } from "../components/Message";
 
+
 // import "./SpaceManager.css";
 
 const SpaceManager: React.FC = () => {
@@ -68,6 +69,7 @@ const SpaceManager: React.FC = () => {
 
   return (
     <div className="space-manager--space1">
+    
       <UserHeader/>
       <Navbar />
       <h1 className="title--space1">Space Manager</h1>
