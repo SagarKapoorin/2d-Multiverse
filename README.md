@@ -16,6 +16,7 @@ This project reflects expertise in a wide range of technologies and best practic
   - Building responsive and dynamic UIs using **React**,**React-Toastify** and **Material-UI**.
   - Managing complex state with **Reduxjs Toolkit**.
 - **Performance Optimization**:
+  - Custom Rate **Limit of 100 requests in 60 sec on both express and mongodb**
   - Using **Redis** for caching and **PM2** for clustering.
   - Database optimization with custom indexing.
 - **DevOps**:
