@@ -46,6 +46,7 @@ const Arena: React.FC = () => {
       setDimensions(response.data.dimensions);
 
     } catch (err) {
+      console.log(err);
       showErrorToast({message:"Failed to fetch space details. Please check the Space ID."});
     }
   };
@@ -59,6 +60,7 @@ const Arena: React.FC = () => {
       });
       setAvailableElements(response.data.elements);
     } catch (err) {
+      console.log(err);
       showErrorToast({message:"Failed to fetch available elements."});
     }
   };
@@ -74,6 +76,7 @@ const Arena: React.FC = () => {
       fetchSpaceDetails(spaceId);
       showSuccessToast({message:"Element deleted Successfully"});
     } catch (err) {
+      console.log(err);
       showErrorToast({message:"Failed to delete element."});
     }
   };
@@ -104,6 +107,7 @@ const Arena: React.FC = () => {
       setSelectedElement("");
       showSuccessToast({message:"Success"});
     } catch (err) {
+      console.log(err);
       showErrorToast({message:"Failed to add element. Ensure the coordinates are within dimensions."});
     }
   };

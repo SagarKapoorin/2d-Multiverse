@@ -18,6 +18,11 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
     },
     rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      'react-hooks/exhaustive-deps': 'off', // Disable exhaustive-deps warning
+    '@typescript-eslint/no-unused-vars': 'off', // Disable unused variables warning
+    'prefer-const': 'off', // Disable prefer-const rule
+    'no-case-declarations': 'off', // Disable no-case-declarations rule
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',

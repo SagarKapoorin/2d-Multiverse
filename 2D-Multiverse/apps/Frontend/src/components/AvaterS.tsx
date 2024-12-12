@@ -1,14 +1,16 @@
 interface AvatarProps {
-  imageUrl: string|undefined;
+  imageUrl?: string|undefined;
   alt?: string;
 }
 
 export function AvatarS({ imageUrl, alt = 'User avatar' }: AvatarProps) {
-    imageUrl===undefined?"https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y":imageUrl;
-  return (
+  const effectiveImageUrl = imageUrl === undefined 
+  ? "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y" 
+  : imageUrl;
+    return (
     <div className="Avatar--div">
     <img
-      src={imageUrl}
+      src={effectiveImageUrl}
       alt={alt}
       className="avatar"
     />

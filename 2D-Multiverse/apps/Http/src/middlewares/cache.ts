@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const exec = mongoose.Query.prototype.exec;
 import { createClient } from "redis";
 //errors->getting errors as we are trying to update mongoose.exec function
-const redisUrl = process.env.redisUrl || "redis://127.0.0.1:6379";
+const redisUrl = process.env.redisUrl || "redis://redis:6379";
 const client = createClient({
   url: redisUrl,
 });

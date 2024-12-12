@@ -34,6 +34,7 @@ const ElementUpdater: React.FC = () => {
       });
       setElements(response.data.elements);
     } catch (err) {
+      console.log(err);
       showErrorToast({message:"Failed to fetch elements."});
     }
   };
@@ -59,6 +60,7 @@ const ElementUpdater: React.FC = () => {
       fetchElements();
       setNewImageUrl("");
     } catch (err) {
+      console.log(err);
       showErrorToast({message:"Failed to update the element image URL."});
     }
   };
