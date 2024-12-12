@@ -6,6 +6,8 @@
 ## **Skills and Technologies Demonstrated**
 
 This project reflects expertise in a wide range of technologies and best practices:
+- **Mono-Repo Structure**:
+  - Used **Turbo** for maintaining a monorepo Structure.
 - **Backend Development**:
   - Designing scalable systems with **Node.js**, **Express**, and **TypeScript**.
   - Implementing real-time features using **WebSockets (Socket.IO)**.
