@@ -11,8 +11,8 @@ This project reflects expertise in a wide range of technologies and best practic
   - Implementing real-time features using **WebSockets (Socket.IO)**.
   - Secure authentication with **Passport.js**, **JWT**,**Cookie-Session** and **bcrypt**.
 - **Frontend Development**:
-  - Building responsive and dynamic UIs using **React** and **Material-UI**.
-  - Managing complex state with **Redux Toolkit**.
+  - Building responsive and dynamic UIs using **React**,**React-Toastify** and **Material-UI**.
+  - Managing complex state with **Reduxjs Toolkit**.
 - **Performance Optimization**:
   - Using **Redis** for caching and **PM2** for clustering.
   - Database optimization with custom indexing.
@@ -57,13 +57,15 @@ The backend is split into two core parts: **HTTP** and **WebSockets**, enabling 
 ### **Frontend**
 The project, while backend-centric, boasts an impressive and interactive frontend:
 - **Technologies**:
-  - Built using **React** and styled with **Material-UI**.
+  - Built using **React** and styled with **Material-UI**,**React-Toastify**.
   - State management is powered by **Redux Toolkit**.
 - **Features**:
   - Beautiful, responsive design with animated backgrounds for enhanced user engagement.
   - Seamless integration with both HTTP and WebSocket backends.
 - **Interactive Elements**:
   - Dynamic and visually appealing components for a rich user experience.
+- **Responsive Design**:
+  - Try My best to make it top notch responsive. 
 
 ---
 
