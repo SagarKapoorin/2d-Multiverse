@@ -1,3 +1,1 @@
-1. database in reusable part as in future websocket can also use it along with http
-2. mapElement is intermediate b/w map and element ,using it to store x,y and it better understanding like this
-3
+
