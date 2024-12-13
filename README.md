@@ -147,6 +147,9 @@ The project, while backend-centric, boasts an impressive and interactive fronten
 
 8. **Docker**:
    Use the `docker-compose` file in the project root to spin up the required containers.
+   ```bash
+     docker compose --build
+   ```
 
 ---
 
